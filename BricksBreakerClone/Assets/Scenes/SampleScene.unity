@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Slider: {fileID: 1297135654}
-  TargetScore: 5000
+  TargetScore: 4000
   Star1: {fileID: 1585863803}
   Star2: {fileID: 199351221}
   Star3: {fileID: 1672029501}

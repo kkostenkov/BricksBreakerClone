@@ -132,7 +132,7 @@ namespace BrickBreaker
             this.slider.value = 90;
             this.slider.transform.parent.gameObject.SetActive(false);
             this.Reset.SetActive(true);
-            this.TargetParent.GetComponent<GetDown>().newPos = new Vector2(this.TargetParent.transform.position.x,
+            this.TargetParent.GetComponent<TargetDownStepper>().newPos = new Vector2(this.TargetParent.transform.position.x,
                 this.TargetParent.transform.position.y - 0.75f);
             StartCoroutine(SpeedUp());
             BottomWall.Shooting = true;

@@ -4,7 +4,7 @@ using TMPro;
 
 namespace BrickBreaker
 {
-    public class UIManager : MonoBehaviour
+    public class GameSessionPointsDisplay : MonoBehaviour
     {
         public static int Points;
         public Slider Slider;
@@ -23,7 +23,10 @@ namespace BrickBreaker
         private void Update()
         {
             this.changeSpeed = Points - this.Slider.value;
-            this.Slider.value = Mathf.MoveTowards(this.Slider.value, Points / this.TargetScore * 100, this.changeSpeed * Time.deltaTime);
+            this.Slider.value = Mathf.MoveTowards(
+                this.Slider.value, 
+                Points / this.TargetScore * 100, 
+                this.changeSpeed * Time.deltaTime);
             this.PointsText.text = Points + "";
 
             if (Mathf.Round(this.Slider.value) >= 100) {

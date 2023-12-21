@@ -47,7 +47,7 @@ namespace BrickBreaker
         private void ScorePoints(int points)
         {
             BottomWall.currentShotPoints += points;
-            UIManager.Points += points;
+            GameSessionPointsDisplay.Points += points;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace BrickBreaker
         private IEnumerator DestroyParticles()
         {
             this.particlesText.gameObject.SetActive(true);
-            this.particlesText.text = Wall.currentPoints + "";
+            this.particlesText.text = BottomWall.currentShotPoints + "";
             this.particles.Play();
             yield return new WaitForSeconds(0.8f);
             Destroy(this.particles.gameObject);

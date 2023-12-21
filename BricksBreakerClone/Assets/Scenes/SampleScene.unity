@@ -1713,7 +1713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Slider: {fileID: 1297135654}
-  TargetScore: 100
+  TargetScore: 5000
   Star1: {fileID: 1585863803}
   Star2: {fileID: 199351221}
   Star3: {fileID: 1672029501}
@@ -2593,7 +2593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3aad71d2a8d9f84aaef544b44b1efa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WarningBackground: {fileID: 1629968194}
+  warningBackground: {fileID: 1629968194}
 --- !u!50 &867654032
 Rigidbody2D:
   serializedVersion: 4
@@ -3454,7 +3454,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1132697691}
   - component: {fileID: 1132697695}
-  - component: {fileID: 1132697693}
   - component: {fileID: 1132697692}
   m_Layer: 0
   m_Name: Text (TMP)
@@ -3575,14 +3574,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1132697695}
   m_maskType: 0
---- !u!222 &1132697693
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132697690}
-  m_CullTransparentMesh: 0
 --- !u!23 &1132697695
 MeshRenderer:
   m_ObjectHideFlags: 0

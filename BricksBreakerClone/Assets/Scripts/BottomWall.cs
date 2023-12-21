@@ -3,7 +3,7 @@ using TMPro;
 
 namespace BrickBreaker
 {
-    public class Wall : MonoBehaviour
+    public class BottomWall : MonoBehaviour
     {
         public static int count;
         public static bool Shooting;
@@ -13,7 +13,7 @@ namespace BrickBreaker
         public static Vector3 NextPosition;
         public GameObject Text;
         private TextMeshPro tmp;
-        public static int currentPoints;
+        public static int currentShotPoints;
         public GameObject FirstBall;
         private bool setText;
 
@@ -22,7 +22,7 @@ namespace BrickBreaker
             count = 0;
             Shooting = false;
             firstHit = false;
-            currentPoints = 0;
+            currentShotPoints = 0;
 
             this.tmp = this.Text.GetComponent<TextMeshPro>();
             NextPosition = this.ballSpawner.transform.position;
@@ -52,7 +52,7 @@ namespace BrickBreaker
                 else {
                     collision.transform.GetComponent<CircleCollider2D>().enabled = false;
                     collision.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                    collision.transform.GetComponent<BallMoveto>().Move = true;
+                    collision.transform.GetComponent<BallMover>().Move = true;
                 }
                 //count += 1;
 
@@ -107,7 +107,7 @@ namespace BrickBreaker
                 if (this.ballSpawner.transform.childCount == 0) {
                     if (GetDown.Move == false) {
                         this.bs.SpeedupOff();
-                        currentPoints = 0;
+                        currentShotPoints = 0;
                         this.ballSpawner.transform.position = NextPosition;
                         GetDown.Move = true;
                         this.setText = false;

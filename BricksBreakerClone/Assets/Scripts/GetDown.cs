@@ -25,7 +25,7 @@ namespace BrickBreaker
             gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, this.newPos, this.step);
             if (Vector2.Distance(gameObject.transform.position, this.newPos) < 0.0001f) {
                 Move = false;
-                Wall.Shooting = false;
+                BottomWall.Shooting = false;
             }
         }
     }

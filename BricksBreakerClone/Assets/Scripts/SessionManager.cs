@@ -39,17 +39,23 @@ namespace BrickBreaker
         }
 
         [ContextMenu("EndSession")]
-        private void EndSession()
+        private async Task EndSession()
         {
-            targetController.gameObject.SetActive(false);
-            
-            GetMultiplicatorAsync();
+            DisableGameFiledView();
+
+            var mult = await GetMultiplicatorAsync();
+            var score = GameSessionPointsDisplay.Points * mult;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private void DisableGameFiledView()
+        {
+            this.targetController.gameObject.SetActive(false);
+            this.ballSpawner.gameObject.SetActive(false);
         }
 
         private async Task<int> GetMultiplicatorAsync()
         {
-            ballSpawner.gameObject.SetActive(false);
             multipicatorPopup.gameObject.SetActive(true);
             var mult = await multipicatorPopup.GetMultiplicatorAsync();
             multipicatorPopup.gameObject.SetActive(false);

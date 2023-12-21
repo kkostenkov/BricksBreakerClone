@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -16,12 +15,12 @@ public class PlayPs : MonoBehaviour
 
     private void Update()
     {
-        if (start == true)
-        {
+        if (start == true) {
             StartCoroutine(DestroyPs());
             start = false;
         }
     }
+
     IEnumerator DestroyPs()
     {
         PStxt.gameObject.SetActive(true);

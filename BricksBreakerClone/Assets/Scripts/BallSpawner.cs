@@ -9,12 +9,14 @@ public class BallSpawner : MonoBehaviour
     private RaycastHit2D ray;
     private float angle;
     public GameObject Ball;
-    public static int BallCount=52;
+    public static int BallCount = 52;
     public TextMeshPro tmp;
     public GameObject SpeedUpParent;
     public float Force;
     public int layerMask;
+
     public GameObject TargetParent;
+
     //public bool moving;
     public GameObject BallSprite;
     public List<GameObject> list = new List<GameObject>();
@@ -34,58 +36,50 @@ public class BallSpawner : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-        if (Wall.Shooting == false)
-        {
-            if (PointerDown == true)
-            {
-                if (BallSprite.activeSelf == false)
-                {
+        if (Wall.Shooting == false) {
+            if (PointerDown == true) {
+                if (BallSprite.activeSelf == false) {
                     BallSprite.SetActive(true);
                 }
+
                 ray = Physics2D.Raycast(gameObject.transform.position, transform.right, 12f, layerMask);
                 Debug.DrawRay(gameObject.transform.position, transform.right * ray.distance, Color.red);
                 BallSprite.transform.position = ray.point;
-                Vector2 poss = Vector2.Reflect(new Vector3(ray.point.x, ray.point.y) - this.transform.position, ray.normal);
+                Vector2 poss = Vector2.Reflect(new Vector3(ray.point.x, ray.point.y) - this.transform.position,
+                    ray.normal);
                 DottedLine.DottedLine.Instance.DrawDottedLine(gameObject.transform.position, ray.point);
                 DottedLine.DottedLine.Instance.DrawDottedLine(ray.point, ray.point + poss.normalized * 2);
 
                 Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 dir = Input.mousePosition - pos;
-                angle = 180f-slider.value;
+                angle = 180f - slider.value;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
-            else
-            {
-                if (Input.GetMouseButton(0))
-                {
-                    
+            else {
+                if (Input.GetMouseButton(0)) {
                     ray = Physics2D.Raycast(gameObject.transform.position, transform.right, 12f, layerMask);
                     Debug.DrawRay(gameObject.transform.position, transform.right * ray.distance, Color.red);
-                    
-                    Vector2 poss = Vector2.Reflect(new Vector3(ray.point.x, ray.point.y) - this.transform.position, ray.normal);
+
+                    Vector2 poss = Vector2.Reflect(new Vector3(ray.point.x, ray.point.y) - this.transform.position,
+                        ray.normal);
 
                     BallSprite.transform.position = ray.point;
                     Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
                     Vector3 dir = Input.mousePosition - pos;
                     angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                    if (angle >= angleMin && angle <= angleMax)
-                    {
+                    if (angle >= angleMin && angle <= angleMax) {
                         DottedLine.DottedLine.Instance.DrawDottedLine(gameObject.transform.position, ray.point);
                         DottedLine.DottedLine.Instance.DrawDottedLine(ray.point, ray.point + poss.normalized * 2);
-                        if (BallSprite.activeSelf == false)
-                        {
+                        if (BallSprite.activeSelf == false) {
                             BallSprite.SetActive(true);
                         }
                     }
-                    else
-                    {
-                        if (BallSprite.activeSelf == true)
-                        {
+                    else {
+                        if (BallSprite.activeSelf == true) {
                             BallSprite.SetActive(false);
                         }
                     }
-                    
+
                     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 }
             }
@@ -96,6 +90,7 @@ public class BallSpawner : MonoBehaviour
     {
         PointerDown = true;
     }
+
     public void PointerUp()
     {
         PointerDown = false;
@@ -103,37 +98,24 @@ public class BallSpawner : MonoBehaviour
 
     void Update()
     {
-        
-        if (BallMoveto.firstHit == true)
-        {
-            if (FirstBall.activeSelf == false)
-            {
+        if (BallMoveto.firstHit == true) {
+            if (FirstBall.activeSelf == false) {
                 FirstBall.SetActive(true);
-
             }
         }
-       
 
-        if (Wall.Shooting == false)
-        {
-            
-          if (Input.GetMouseButtonUp(0))
-            {
+        if (Wall.Shooting == false) {
+            if (Input.GetMouseButtonUp(0)) {
                 BallSprite.SetActive(false);
-                if (angle >= angleMin && angle <= angleMax)
-                {
-                    if (Wall.firstHit == true)
-                    {
+                if (angle >= angleMin && angle <= angleMax) {
+                    if (Wall.firstHit == true) {
                         Wall.firstHit = false;
                     }
-                    
+
                     StartCoroutine(ShootBall());
-                    
                 }
-                else
-                {
+                else {
                     transform.rotation = Quaternion.identity;
-                    
                 }
             }
         }
@@ -143,14 +125,13 @@ public class BallSpawner : MonoBehaviour
         }*/
     }
 
-    
-
     IEnumerator ShootBall()
     {
         slider.value = 90;
         slider.transform.parent.gameObject.SetActive(false);
         Reset.SetActive(true);
-        TargetParent.GetComponent<GetDown>().newPos = new Vector2(TargetParent.transform.position.x,TargetParent.transform.position.y-0.75f);
+        TargetParent.GetComponent<GetDown>().newPos = new Vector2(TargetParent.transform.position.x,
+            TargetParent.transform.position.y - 0.75f);
         StartCoroutine(SpeedUp());
         Wall.Shooting = true;
         tmp.text = "";
@@ -158,32 +139,29 @@ public class BallSpawner : MonoBehaviour
         stop = false;
         list.Clear();
         FirstBall.SetActive(false);
-        for (int i = 0; i < BallCount; i++)
-        {
-            
+        for (int i = 0; i < BallCount; i++) {
             yield return new WaitForSeconds(0.08f);
-            if (stop == true)
-            {
+            if (stop == true) {
                 break;
             }
-            GameObject myinst = Instantiate(Ball, gameObject.transform.position, Quaternion.identity,gameObject.transform);
+
+            GameObject myinst = Instantiate(Ball, gameObject.transform.position, Quaternion.identity,
+                gameObject.transform);
             list.Add(myinst);
-            myinst.GetComponent<Rigidbody2D>().AddForce(transform.right * Force );
-            
+            myinst.GetComponent<Rigidbody2D>().AddForce(transform.right * Force);
         }
-        }
+    }
 
     IEnumerator SpeedUp()
     {
         yield return new WaitForSeconds(4.6f);
 
-        if (Wall.Shooting == true)
-        {
+        if (Wall.Shooting == true) {
             SpeedUpParent.SetActive(true);
             Time.timeScale = 1.6f;
         }
-
     }
+
     public void SpeedupOff()
     {
         SpeedUpParent.SetActive(false);
@@ -204,16 +182,13 @@ public class BallSpawner : MonoBehaviour
     {
         Wall.firstHit = true;
         stop = true;
-        foreach (GameObject go in list)
-        {
-            if (go != null)
-            {
+        foreach (GameObject go in list) {
+            if (go != null) {
                 go.GetComponent<CircleCollider2D>().enabled = false;
                 go.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 go.GetComponent<BallMoveto>().Move = true;
             }
-         }
+        }
         //tmp.text = BallCount+"x";
     }
-   
 }

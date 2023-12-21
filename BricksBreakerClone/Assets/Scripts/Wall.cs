@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class Wall : MonoBehaviour
@@ -31,45 +29,39 @@ public class Wall : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Ball")
-        {
-            
-            
-            if (firstHit == false)
-            {
+        if (collision.transform.tag == "Ball") {
+            if (firstHit == false) {
                 setText = true;
                 NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);
 
                 Text.transform.parent.position = NextPosition;
-                if (TriggerScript.onRight == true)
-                {
+                if (TriggerScript.onRight == true) {
                     Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, 0.295f);
                 }
-                else
-                {
+                else {
                     Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, -0.295f);
                 }
+
                 FirstBall.transform.gameObject.SetActive(true);
                 Destroy(collision.gameObject);
                 firstHit = true;
             }
-            
-            else
-            {
+
+            else {
                 collision.transform.GetComponent<CircleCollider2D>().enabled = false;
-                collision.transform.GetComponent<Rigidbody2D>().bodyType=RigidbodyType2D.Static;
+                collision.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 collision.transform.GetComponent<BallMoveto>().Move = true;
             }
             //count += 1;
-            
+
             /*if (count == 1)
             {
                 if (firstHit == false)
                 {
-                    
+
 
                     NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);
-                    
+
                     Text.transform.parent.position = NextPosition;
                     if (TriggerScript.onRight == true)
                     {
@@ -95,27 +87,23 @@ public class Wall : MonoBehaviour
                 currentPoints = 0;
                 ballSpawner.transform.position = NextPosition;
                 ballSpawner.GetComponent<BallSpawner>().moving = true;
-                
-                
-                
+
+
+
             }
             else {
                 collision.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 collision.transform.GetComponent<BallMoveto>().Move = true;
                 //Destroy(collision.gameObject);
             }*/
-            
-            
         }
     }
+
     private void Update()
     {
-        if (firstHit == true)
-        {
-            if (ballSpawner.transform.childCount == 0)
-            {
-                if (GetDown.Move==false)
-                {
+        if (firstHit == true) {
+            if (ballSpawner.transform.childCount == 0) {
+                if (GetDown.Move == false) {
                     bs.SpeedupOff();
                     currentPoints = 0;
                     ballSpawner.transform.position = NextPosition;
@@ -126,23 +114,18 @@ public class Wall : MonoBehaviour
                 }
             }
         }
-        if (setText == true)
-        {
-            if (count < BallSpawner.BallCount)
-            {
+
+        if (setText == true) {
+            if (count < BallSpawner.BallCount) {
                 tmp.text = count + 1 + "x";
             }
-
         }
-        else
-        {
-            if (Shooting == false)
-            {
+        else {
+            if (Shooting == false) {
                 tmp.text = BallSpawner.BallCount + "x";
                 bs.Reset.SetActive(false);
                 bs.slider.transform.parent.gameObject.SetActive(true);
             }
         }
     }
-
 }

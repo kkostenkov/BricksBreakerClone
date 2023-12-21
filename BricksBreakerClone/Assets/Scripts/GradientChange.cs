@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GradientChange : MonoBehaviour
 {
@@ -16,16 +14,14 @@ public class GradientChange : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Ball")
-        {
+        if (collision.transform.tag == "Ball") {
             sr.sprite = GradientWhite;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Ball")
-        {
+        if (collision.transform.tag == "Ball") {
             sr.sprite = MainSprite;
         }
     }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -20,22 +18,19 @@ public class UIManager : MonoBehaviour
         Points = 0;
     }
 
-
-    void Update()
+    private void Update()
     {
         changeSpeed = Points - Slider.value;
         Slider.value = Mathf.MoveTowards(Slider.value, Points / TargetScore * 100, changeSpeed * Time.deltaTime);
         PointsText.text = Points + "";
-        
 
-        if (Mathf.Round(Slider.value) >= 100)
-        {
+        if (Mathf.Round(Slider.value) >= 100) {
             Star3.color = new Color(1, 1, 1);
-        } else if (Mathf.Round(Slider.value) >= 70)
-        {
+        }
+        else if (Mathf.Round(Slider.value) >= 70) {
             Star2.color = new Color(1, 1, 1);
-        } else if (Mathf.Round(Slider.value) > 0)
-        {
+        }
+        else if (Mathf.Round(Slider.value) > 0) {
             Star1.color = new Color(1, 1, 1);
         }
     }

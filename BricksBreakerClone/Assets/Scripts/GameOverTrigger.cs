@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverTrigger : MonoBehaviour
+namespace BrickBreaker
 {
-    //private DottedLine dl;
-    private void Start()
+    public class GameOverTrigger : MonoBehaviour
     {
-        //dl = FindObjectOfType<DottedLine>();
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.transform.tag == "Target")
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            
+            if (collision.transform.CompareTag("Target")) {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 }

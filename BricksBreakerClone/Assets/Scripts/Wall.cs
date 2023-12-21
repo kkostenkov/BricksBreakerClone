@@ -1,60 +1,62 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class Wall : MonoBehaviour
+namespace BrickBreaker
 {
-    public static int count;
-    public static bool Shooting;
-    public GameObject ballSpawner;
-    private BallSpawner bs;
-    public static bool firstHit;
-    public static Vector3 NextPosition;
-    public GameObject Text;
-    private TextMeshPro tmp;
-    public static int currentPoints;
-    public GameObject FirstBall;
-    private bool setText;
-
-    private void Start()
+    public class Wall : MonoBehaviour
     {
-        count = 0;
-        Shooting = false;
-        firstHit = false;
-        currentPoints = 0;
+        public static int count;
+        public static bool Shooting;
+        public GameObject ballSpawner;
+        private BallSpawner bs;
+        public static bool firstHit;
+        public static Vector3 NextPosition;
+        public GameObject Text;
+        private TextMeshPro tmp;
+        public static int currentPoints;
+        public GameObject FirstBall;
+        private bool setText;
 
-        tmp = Text.GetComponent<TextMeshPro>();
-        NextPosition = ballSpawner.transform.position;
-        bs = ballSpawner.GetComponent<BallSpawner>();
-    }
+        private void Start()
+        {
+            count = 0;
+            Shooting = false;
+            firstHit = false;
+            currentPoints = 0;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Ball") {
-            if (firstHit == false) {
-                setText = true;
-                NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);
+            this.tmp = this.Text.GetComponent<TextMeshPro>();
+            NextPosition = this.ballSpawner.transform.position;
+            this.bs = this.ballSpawner.GetComponent<BallSpawner>();
+        }
 
-                Text.transform.parent.position = NextPosition;
-                if (TriggerScript.onRight == true) {
-                    Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, 0.295f);
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.transform.tag == "Ball") {
+                if (firstHit == false) {
+                    this.setText = true;
+                    NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);
+
+                    this.Text.transform.parent.position = NextPosition;
+                    if (TriggerScript.onRight == true) {
+                        this.Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, 0.295f);
+                    }
+                    else {
+                        this.Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, -0.295f);
+                    }
+
+                    this.FirstBall.transform.gameObject.SetActive(true);
+                    Destroy(collision.gameObject);
+                    firstHit = true;
                 }
+
                 else {
-                    Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, -0.295f);
+                    collision.transform.GetComponent<CircleCollider2D>().enabled = false;
+                    collision.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                    collision.transform.GetComponent<BallMoveto>().Move = true;
                 }
+                //count += 1;
 
-                FirstBall.transform.gameObject.SetActive(true);
-                Destroy(collision.gameObject);
-                firstHit = true;
-            }
-
-            else {
-                collision.transform.GetComponent<CircleCollider2D>().enabled = false;
-                collision.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                collision.transform.GetComponent<BallMoveto>().Move = true;
-            }
-            //count += 1;
-
-            /*if (count == 1)
+                /*if (count == 1)
             {
                 if (firstHit == false)
                 {
@@ -96,35 +98,36 @@ public class Wall : MonoBehaviour
                 collision.transform.GetComponent<BallMoveto>().Move = true;
                 //Destroy(collision.gameObject);
             }*/
+            }
         }
-    }
 
-    private void Update()
-    {
-        if (firstHit == true) {
-            if (ballSpawner.transform.childCount == 0) {
-                if (GetDown.Move == false) {
-                    bs.SpeedupOff();
-                    currentPoints = 0;
-                    ballSpawner.transform.position = NextPosition;
-                    GetDown.Move = true;
-                    setText = false;
-                    count = 0;
-                    firstHit = false;
+        private void Update()
+        {
+            if (firstHit == true) {
+                if (this.ballSpawner.transform.childCount == 0) {
+                    if (GetDown.Move == false) {
+                        this.bs.SpeedupOff();
+                        currentPoints = 0;
+                        this.ballSpawner.transform.position = NextPosition;
+                        GetDown.Move = true;
+                        this.setText = false;
+                        count = 0;
+                        firstHit = false;
+                    }
                 }
             }
-        }
 
-        if (setText == true) {
-            if (count < BallSpawner.BallCount) {
-                tmp.text = count + 1 + "x";
+            if (this.setText == true) {
+                if (count < BallSpawner.BallCount) {
+                    this.tmp.text = count + 1 + "x";
+                }
             }
-        }
-        else {
-            if (Shooting == false) {
-                tmp.text = BallSpawner.BallCount + "x";
-                bs.Reset.SetActive(false);
-                bs.slider.transform.parent.gameObject.SetActive(true);
+            else {
+                if (Shooting == false) {
+                    this.tmp.text = BallSpawner.BallCount + "x";
+                    this.bs.Reset.SetActive(false);
+                    this.bs.slider.transform.parent.gameObject.SetActive(true);
+                }
             }
         }
     }

@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class TriggerScript : MonoBehaviour
+namespace BrickBreaker
 {
-    public static bool onRight;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class TriggerScript : MonoBehaviour
     {
-        if (collision.transform.tag == "Ball") {
-            if (onRight == false) {
-                onRight = true;
+        public static bool onRight;
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.transform.CompareTag("Ball")) {
+                if (onRight == false) {
+                    onRight = true;
+                }
             }
         }
     }

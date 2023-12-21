@@ -1,23 +1,31 @@
 ﻿using UnityEngine;
 
-public class WarningTrigger : MonoBehaviour
+namespace BrickBreaker
 {
-    public GameObject WarningBg;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class WarningTrigger : MonoBehaviour
     {
-        if (collision.transform.tag == "Target") {
-            if (WarningBg.activeSelf == false) {
-                this.WarningBg.SetActive(true);
+        [SerializeField]
+        private GameObject warningBackground;
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!collision.transform.CompareTag(Constants.Tags.Target)) {
+                return;
+            }
+
+            if (this.warningBackground.activeSelf == false) {
+                this.warningBackground.SetActive(true);
             }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.transform.tag == "Target") {
-            if (WarningBg.activeSelf == true) {
-                this.WarningBg.SetActive(false);
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (!collision.transform.CompareTag(Constants.Tags.Target)) {
+                return;
+            }
+
+            if (this.warningBackground.activeSelf == true) {
+                this.warningBackground.SetActive(false);
             }
         }
     }

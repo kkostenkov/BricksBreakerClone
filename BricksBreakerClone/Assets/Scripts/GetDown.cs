@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 
-public class GetDown : MonoBehaviour
+namespace BrickBreaker
 {
-    public static bool Move;
-    private float speed = 8f;
-    private float step;
-    public Vector2 newPos;
-
-    private void Start()
+    public class GetDown : MonoBehaviour
     {
-        Move = false;
-    }
+        public static bool Move;
+        private float speed = 8f;
+        private float step;
+        public Vector2 newPos;
 
-    private void FixedUpdate()
-    {
-        if (Move == true) {
-            step = speed * Time.deltaTime;
+        private void Start()
+        {
+            Move = false;
+        }
 
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, newPos, step);
-            if (Vector2.Distance(gameObject.transform.position, newPos) < 0.0001f) {
-                Move = false;
-                Wall.Shooting = false;
+        private void FixedUpdate()
+        {
+            if (Move == true) {
+                this.step = this.speed * Time.deltaTime;
+
+                gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, this.newPos, this.step);
+                if (Vector2.Distance(gameObject.transform.position, this.newPos) < 0.0001f) {
+                    Move = false;
+                    Wall.Shooting = false;
+                }
             }
         }
     }

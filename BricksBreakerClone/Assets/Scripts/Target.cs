@@ -1,37 +1,40 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class Target : MonoBehaviour
+namespace BrickBreaker
 {
-    public Color[] Colors;
-    public int Life;
-    private TextMeshPro txt;
-
-    private void Start()
+    public class Target : MonoBehaviour
     {
-        txt = gameObject.transform.GetChild(0).GetComponent<TextMeshPro>();
-        txt.text = Life + "";
-    }
+        public Color[] Colors;
+        public int Life;
+        private TextMeshPro txt;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Ball") {
-            if (Life > 1) {
-                Life--;
-                txt.text = Life + "";
+        private void Start()
+        {
+            this.txt = gameObject.transform.GetChild(0).GetComponent<TextMeshPro>();
+            this.txt.text = this.Life + "";
+        }
 
-                gameObject.transform.GetComponent<SpriteRenderer>().color = Colors[Random.Range(0, Colors.Length)];
-            }
-            else {
-                transform.parent.GetComponent<PlayPs>().start = true;
-                Destroy(this.gameObject);
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.transform.CompareTag(Constants.Tags.Ball)) {
+                if (this.Life > 1) {
+                    this.Life--;
+                    this.txt.text = this.Life + "";
+
+                    gameObject.transform.GetComponent<SpriteRenderer>().color = this.Colors[Random.Range(0, this.Colors.Length)];
+                }
+                else {
+                    transform.parent.GetComponent<ParticleSystemPlayer>().start = true;
+                    Destroy(this.gameObject);
+                }
             }
         }
-    }
 
-    private void OnDestroy()
-    {
-        Wall.currentPoints += 10;
-        UIManager.Points += Wall.currentPoints;
+        private void OnDestroy()
+        {
+            Wall.currentPoints += 10;
+            UIManager.Points += Wall.currentPoints;
+        }
     }
 }

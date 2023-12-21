@@ -1,28 +1,31 @@
 ﻿using UnityEngine;
 
-public class GradientChange : MonoBehaviour
+namespace BrickBreaker
 {
-    public Sprite GradientWhite;
-    private Sprite MainSprite;
-    private SpriteRenderer sr;
-
-    private void Start()
+    public class GradientChange : MonoBehaviour
     {
-        sr = gameObject.GetComponent<SpriteRenderer>();
-        MainSprite = sr.sprite;
-    }
+        public Sprite GradientWhite;
+        private Sprite MainSprite;
+        private SpriteRenderer sr;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Ball") {
-            sr.sprite = GradientWhite;
+        private void Start()
+        {
+            this.sr = gameObject.GetComponent<SpriteRenderer>();
+            this.MainSprite = this.sr.sprite;
         }
-    }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Ball") {
-            sr.sprite = MainSprite;
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.transform.tag == "Ball") {
+                this.sr.sprite = this.GradientWhite;
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.transform.tag == "Ball") {
+                this.sr.sprite = this.MainSprite;
+            }
         }
     }
 }

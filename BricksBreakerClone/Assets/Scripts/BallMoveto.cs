@@ -1,36 +1,38 @@
 ﻿using UnityEngine;
 
-public class BallMoveto : MonoBehaviour
+namespace BrickBreaker
 {
-    public bool Move;
-    private float speed = 8f;
-    private float step;
-    public static bool firstHit;
-
-    private void Start()
+    public class BallMoveto : MonoBehaviour
     {
-        Move = false;
-    }
+        public bool Move;
+        private float speed = 8f;
+        private float step;
+        public static bool firstHit;
 
-    private void FixedUpdate()
-    {
-        if (Move == true) {
-            step = speed * Time.deltaTime;
+        private void Start()
+        {
+            this.Move = false;
+        }
 
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, Wall.NextPosition, step);
-            if (Vector2.Distance(gameObject.transform.position, Wall.NextPosition) < 0.0001f) {
-                Destroy(this.gameObject);
+        private void FixedUpdate()
+        {
+            if (this.Move == true) {
+                this.step = this.speed * Time.deltaTime;
+
+                gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, Wall.NextPosition, this.step);
+                if (Vector2.Distance(gameObject.transform.position, Wall.NextPosition) < 0.0001f) {
+                    Destroy(this.gameObject);
+                }
             }
         }
-    }
 
-    private void OnDestroy()
-    {
-        if (firstHit == false) {
-            firstHit = true;
+        private void OnDestroy()
+        {
+            if (firstHit == false) {
+                firstHit = true;
+            }
+
+            Wall.count++;
         }
-
-        //gameObject.transform.parent.GetComponent<BallSpawner>().list.Remove(this.gameObject);
-        Wall.count++;
     }
 }

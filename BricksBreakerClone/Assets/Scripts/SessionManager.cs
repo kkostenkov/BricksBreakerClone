@@ -1,7 +1,5 @@
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace BrickBreaker
 {
@@ -10,6 +8,8 @@ namespace BrickBreaker
         [SerializeField]
         private TargetController targetController;
 
+        [SerializeField]
+        private BallSpawner ballSpawner;
         [SerializeField]
         private GameLostTrigger gameLostTrigger;
 
@@ -41,12 +41,15 @@ namespace BrickBreaker
         [ContextMenu("EndSession")]
         private void EndSession()
         {
-            Task.Run(GetMultiplicatorAsync);
+            targetController.gameObject.SetActive(false);
+            
+            GetMultiplicatorAsync();
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         private async Task<int> GetMultiplicatorAsync()
         {
+            ballSpawner.gameObject.SetActive(false);
             multipicatorPopup.gameObject.SetActive(true);
             var mult = await multipicatorPopup.GetMultiplicatorAsync();
             multipicatorPopup.gameObject.SetActive(false);

@@ -7,7 +7,7 @@ namespace BrickBreaker
     {
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.CompareTag("Target")) {
+            if (collision.transform.CompareTag(Constants.Tags.Target)) {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }

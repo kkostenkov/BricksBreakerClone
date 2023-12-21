@@ -19,7 +19,10 @@ namespace BrickBreaker
             if (this.Move == true) {
                 this.step = this.speed * Time.deltaTime;
 
-                gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, Wall.NextPosition, this.step);
+                gameObject.transform.position = Vector2.MoveTowards(
+                    gameObject.transform.position, 
+                    Wall.NextPosition, 
+                    this.step);
                 if (Vector2.Distance(gameObject.transform.position, Wall.NextPosition) < 0.0001f) {
                     Destroy(this.gameObject);
                 }

@@ -31,7 +31,7 @@ namespace BrickBreaker
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.transform.tag == "Ball") {
+            if (collision.transform.CompareTag(Constants.Tags.Ball)) {
                 if (firstHit == false) {
                     this.setText = true;
                     NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);

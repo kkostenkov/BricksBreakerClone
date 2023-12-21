@@ -8,7 +8,7 @@ namespace BrickBreaker
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.CompareTag("Ball")) {
+            if (collision.transform.CompareTag(Constants.Tags.Ball)) {
                 if (onRight == false) {
                     onRight = true;
                 }

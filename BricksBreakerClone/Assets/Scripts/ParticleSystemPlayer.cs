@@ -17,10 +17,12 @@ namespace BrickBreaker
 
         private void Update()
         {
-            if (this.start == true) {
-                StartCoroutine(DestroyParticles());
-                this.start = false;
+            if (this.start != true) {
+                return;
             }
+
+            StartCoroutine(DestroyParticles());
+            this.start = false;
         }
 
         private IEnumerator DestroyParticles()

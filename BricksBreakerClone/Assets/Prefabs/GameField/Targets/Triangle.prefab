@@ -5133,7 +5133,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1badff7f8fd35f43abeaebaf59993ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colors: []
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.99999976, a: 1}
+  - {r: 0.035300493, g: 1, b: 0, a: 1}
+  - {r: 0.07035923, g: 0, b: 1, a: 1}
+  - {r: 0.963735, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.49801767, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.8595643, a: 1}
   lifePoints: 30
   txt: {fileID: 2618951910133582117}
   spriteRenderer: {fileID: 2618951909629371529}

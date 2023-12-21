@@ -1,4 +1,5 @@
-using System;
+using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,9 @@ namespace BrickBreaker
 
         [SerializeField]
         private GameLostTrigger gameLostTrigger;
+
+        [SerializeField]
+        private ScoreMultiplicatorPopup multipicatorPopup;
 
         private void Awake()
         {
@@ -34,9 +38,20 @@ namespace BrickBreaker
             EndSession();
         }
 
+        [ContextMenu("EndSession")]
         private void EndSession()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Task.Run(GetMultiplicatorAsync);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private async Task<int> GetMultiplicatorAsync()
+        {
+            multipicatorPopup.gameObject.SetActive(true);
+            var mult = await multipicatorPopup.GetMultiplicatorAsync();
+            multipicatorPopup.gameObject.SetActive(false);
+            Debug.Log(mult);
+            return mult;
         }
     }
 }

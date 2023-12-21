@@ -1,40 +1,35 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScoreMultiplicatorPopup : MonoBehaviour
 {
     [SerializeField]
-    private Button multiplier_1;
-    [SerializeField]
-    private Button multiplier_3;
-    [SerializeField]
-    private Button multiplier_5;
+    private List<ScoreMultiplicationButton> multiplicatorButtons;
 
-    public event Action<int> MultiplicatorSelected;
-
-    private void Awake()
+    public async Task<int> GetMultiplicatorAsync()
     {
-        multiplier_1.onClick.AddListener(() => SelectMultiplicator(1));
-        multiplier_3.onClick.AddListener(() => SelectMultiplicator(3));
-        multiplier_5.onClick.AddListener(() => SelectMultiplicator(5));
-    }
-    
-    private void OnDestroy()
-    {
-        Unsubscribe();
+        var ct = new CancellationToken();
+        var tasks = multiplicatorButtons.Select((b) => WaitForPress(b, ct));
+        var finishedTask = await Task.WhenAny(tasks);
+        var pressedButton = finishedTask.Result;
+        return pressedButton.Muliplicator;
     }
 
-    private void SelectMultiplicator(int mult)
+    private async Task<ScoreMultiplicationButton> WaitForPress(ScoreMultiplicationButton button, CancellationToken ct)
     {
-        MultiplicatorSelected?.Invoke(mult);
+        bool isPressed = false;
+        button.MultiplicatorSelected += () => isPressed = true;
+        while (!isPressed) {
+            await Task.Yield();
+            if (ct.IsCancellationRequested) {
+                button.MultiplicatorSelected = null;
+                return null;
+            }
+        }
+        return button;
     }
-
-    private void Unsubscribe()
-    {
-        multiplier_1.onClick.RemoveAllListeners();
-        multiplier_3.onClick.RemoveAllListeners();
-        multiplier_5.onClick.RemoveAllListeners();
-    }
-    
 }

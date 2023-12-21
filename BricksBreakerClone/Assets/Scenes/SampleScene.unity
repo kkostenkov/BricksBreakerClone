@@ -475,6 +475,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 236150306}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &256895090 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 613839968210153353, guid: 80fd9a6ed6f5143379f85c264837ef5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 613839968209701871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4f805cf2e9ee94caa9dcbdb45da638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &292938943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1516,6 +1528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetController: {fileID: 1238732512}
+  gameLostTrigger: {fileID: 256895090}
 --- !u!4 &951518957
 Transform:
   m_ObjectHideFlags: 0
@@ -4180,7 +4193,7 @@ PrefabInstance:
     - target: {fileID: 613839968210153357, guid: 80fd9a6ed6f5143379f85c264837ef5a,
         type: 3}
       propertyPath: m_Name
-      value: GameOverTrigger
+      value: GameLostTrigger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80fd9a6ed6f5143379f85c264837ef5a, type: 3}

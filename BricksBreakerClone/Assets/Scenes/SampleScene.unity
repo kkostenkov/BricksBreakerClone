@@ -1515,6 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b21b82b9c09e4ed69b2fc9565795183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetController: {fileID: 1238732512}
 --- !u!4 &951518957
 Transform:
   m_ObjectHideFlags: 0

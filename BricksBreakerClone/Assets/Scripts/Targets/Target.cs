@@ -16,7 +16,7 @@ namespace BrickBreaker
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
-        public event Action Destroyed;
+        public event Action<Target> Destroying;
 
         private int hitValuePoints = 1;
         private int destroyValuePoints = 100;
@@ -41,7 +41,8 @@ namespace BrickBreaker
             }
             else {
                 transform.parent.GetComponent<ParticleSystemPlayer>().start = true;
-                ScorePoints(destroyValuePoints); 
+                ScorePoints(destroyValuePoints);
+                this.Destroying?.Invoke(this);
                 Destroy(this.gameObject);
             }
         }

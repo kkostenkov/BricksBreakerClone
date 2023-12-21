@@ -4,8 +4,8 @@ namespace BrickBreaker
     {
         public static class Tags
         {
-            public static string Ball = "Ball";
-            public static string Target = "Target";
+            public static readonly string Ball = "Ball";
+            public static readonly string Target = "Target";
         }
     }
 }

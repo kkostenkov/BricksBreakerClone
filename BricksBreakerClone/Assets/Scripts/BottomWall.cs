@@ -54,50 +54,6 @@ namespace BrickBreaker
                     collision.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                     collision.transform.GetComponent<BallMover>().Move = true;
                 }
-                //count += 1;
-
-                /*if (count == 1)
-            {
-                if (firstHit == false)
-                {
-
-
-                    NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);
-
-                    Text.transform.parent.position = NextPosition;
-                    if (TriggerScript.onRight == true)
-                    {
-                        Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, 0.295f);
-                    }
-                    else
-                    {
-                        Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, -0.295f);
-                    }
-                    ballSpawner.GetComponent<BallSpawner>().LastBall = collision.transform.gameObject;
-                    ballSpawner.GetComponent<BallSpawner>().LastBall.layer = 2;
-                    collision.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    collision.transform.position = NextPosition;
-                    firstHit = true;
-                }
-            } else if (count == BallSpawner.BallCount)
-            {
-                ballSpawner.GetComponent<BallSpawner>().SpeedupOff();
-
-                Destroy(collision.gameObject);
-                //Shooting = false;
-                count = 0;
-                currentPoints = 0;
-                ballSpawner.transform.position = NextPosition;
-                ballSpawner.GetComponent<BallSpawner>().moving = true;
-
-
-
-            }
-            else {
-                collision.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                collision.transform.GetComponent<BallMoveto>().Move = true;
-                //Destroy(collision.gameObject);
-            }*/
             }
         }
 

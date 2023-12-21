@@ -137,7 +137,7 @@ namespace BrickBreaker
             StartCoroutine(SpeedUp());
             BottomWall.Shooting = true;
             this.tmp.text = "";
-            TriggerScript.onRight = false;
+            BallDetector.isTriggered = false;
             this.stop = false;
             this.list.Clear();
             this.FirstBall.SetActive(false);

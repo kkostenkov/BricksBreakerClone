@@ -37,7 +37,7 @@ namespace BrickBreaker
                     NextPosition = new Vector3(collision.transform.position.x, gameObject.transform.position.y + 0.2f, 0);
 
                     this.Text.transform.parent.position = NextPosition;
-                    if (TriggerScript.onRight == true) {
+                    if (BallDetector.isTriggered == true) {
                         this.Text.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.116f, 0.295f);
                     }
                     else {

@@ -2,9 +2,9 @@
 
 namespace BrickBreaker
 {
-    public class TriggerScript : MonoBehaviour
+    public class BallDetector : MonoBehaviour
     {
-        public static bool onRight;
+        public static bool isTriggered;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -12,8 +12,8 @@ namespace BrickBreaker
                 return;
             }
 
-            if (onRight == false) {
-                onRight = true;
+            if (isTriggered == false) {
+                isTriggered = true;
             }
         }
     }

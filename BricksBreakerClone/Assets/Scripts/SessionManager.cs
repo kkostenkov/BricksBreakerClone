@@ -15,6 +15,8 @@ namespace BrickBreaker
 
         [SerializeField]
         private ScoreMultiplicatorPopup multipicatorPopup;
+        [SerializeField]
+        private LeaderboardPopup leaderboardPopup;
 
         private void Awake()
         {
@@ -45,7 +47,7 @@ namespace BrickBreaker
 
             var mult = await GetMultiplicatorAsync();
             var score = GameSessionPointsDisplay.Points * mult;
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            this.leaderboardPopup.gameObject.SetActive(true);
         }
 
         private void DisableInput()

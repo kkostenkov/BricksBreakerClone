@@ -1532,6 +1532,7 @@ MonoBehaviour:
   ballSpawner: {fileID: 1124306443}
   gameLostTrigger: {fileID: 256895090}
   multipicatorPopup: {fileID: 2129341729}
+  leaderboardPopup: {fileID: 1645963219}
 --- !u!4 &951518957
 Transform:
   m_ObjectHideFlags: 0
@@ -2843,6 +2844,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3790681073896811674}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1645963219 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1330211962661124615, guid: b41dc612270104a98b86b238dedac262,
+    type: 3}
+  m_PrefabInstance: {fileID: 3790681073896811674}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f5f596a6893454c8c4f4e46c77d820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1680665065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3915,12 +3928,12 @@ PrefabInstance:
     - target: {fileID: 3790681073326820171, guid: b41dc612270104a98b86b238dedac262,
         type: 3}
       propertyPath: m_Name
-      value: Leaderboard
+      value: LeaderboardPopup
       objectReference: {fileID: 0}
     - target: {fileID: 3790681073326820171, guid: b41dc612270104a98b86b238dedac262,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b41dc612270104a98b86b238dedac262, type: 3}

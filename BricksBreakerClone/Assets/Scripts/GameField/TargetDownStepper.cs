@@ -39,9 +39,9 @@ namespace BrickBreaker
             this.step = this.speed * Time.deltaTime;
 
             gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, this.newPos, this.step);
-            if (Vector2.Distance(gameObject.transform.position, this.newPos) < 0.0001f) {
+            if (gameObject.transform.position.IsCloseEnoughTo(this.newPos)) {
                 IsMoving = false;
-                BottomWall.Shooting = false;
+                BottomWall.IsShooting = false;
             }
         }
     }

@@ -6,23 +6,13 @@ namespace BrickBreaker
 {
     public class ParticleSystemPlayer : MonoBehaviour
     {
-        public bool start;
+        [SerializeField]
         public TextMeshPro particlesText;
         private ParticleSystem particles;
 
         private void Start()
         {
             this.particles = gameObject.GetComponent<ParticleSystem>();
-        }
-
-        private void Update()
-        {
-            if (this.start != true) {
-                return;
-            }
-
-            StartCoroutine(DestroyParticles());
-            this.start = false;
         }
 
         private IEnumerator DestroyParticles()
@@ -33,6 +23,11 @@ namespace BrickBreaker
             yield return new WaitForSeconds(0.8f);
             Destroy(this.particles.gameObject);
             Destroy(this.particlesText.gameObject);
+        }
+
+        public void Play()
+        {
+            StartCoroutine(DestroyParticles());
         }
     }
 }

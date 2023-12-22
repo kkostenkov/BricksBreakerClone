@@ -8,10 +8,9 @@ namespace BrickBreaker
 {
     public class BallSpawner : MonoBehaviour, IInputController
     {
-        private RaycastHit2D ray;
+        private const float shotDelaySeconds = 0.08f;
         private float angle;
         public GameObject Ball;
-        public static int BallCount = 52;
         public TextMeshPro tmp;
         public GameObject SpeedUpParent;
         public float Force;
@@ -24,7 +23,7 @@ namespace BrickBreaker
         public GameObject FirstBall;
         public GameObject Reset;
         public Slider slider;
-        private bool PointerDown;
+        private bool IsPayerAimingWithSlider;
         public float angleMin;
         public float angleMax;
 
@@ -37,99 +36,135 @@ namespace BrickBreaker
         
         private void Start()
         {
-            this.tmp.text = BallCount + "x";
+            this.tmp.text = Constants.BallCount + "x";
             this.layerMask = (LayerMask.GetMask("Wall"));
         }
 
         private void FixedUpdate()
         {
-            if (BottomWall.Shooting != false) {
+            if (BottomWall.IsShooting) {
                 return;
             }
-
-            if (this.PointerDown == true) {
+            
+            if (this.IsPayerAimingWithSlider) {
                 if (this.BallSprite.activeSelf == false) {
                     this.BallSprite.SetActive(true);
                 }
 
-                this.ray = Physics2D.Raycast(gameObject.transform.position, transform.right, 12f, this.layerMask);
-                Debug.DrawRay(gameObject.transform.position, transform.right * this.ray.distance, Color.red);
-                this.BallSprite.transform.position = this.ray.point;
-                Vector2 poss = Vector2.Reflect(new Vector3(this.ray.point.x, this.ray.point.y) - this.transform.position,
-                    this.ray.normal);
-                DottedLine.DottedLine.Instance.DrawDottedLine(gameObject.transform.position, this.ray.point);
-                DottedLine.DottedLine.Instance.DrawDottedLine(this.ray.point, this.ray.point + poss.normalized * 2);
-
-                Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 dir = Input.mousePosition - pos;
-                this.angle = 180f - this.slider.value;
-                transform.rotation = Quaternion.AngleAxis(this.angle, Vector3.forward);
+                this.angle = GetSliderAngle();
+                AimAndPredictTrajectory(this.angle);
             }
             else {
-                if (Input.GetMouseButton(0)) {
-                    this.ray = Physics2D.Raycast(gameObject.transform.position, transform.right, 12f, this.layerMask);
-                    Debug.DrawRay(gameObject.transform.position, transform.right * this.ray.distance, Color.red);
-
-                    Vector2 poss = Vector2.Reflect(new Vector3(this.ray.point.x, this.ray.point.y) - this.transform.position,
-                        this.ray.normal);
-
-                    this.BallSprite.transform.position = this.ray.point;
-                    Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-                    Vector3 dir = Input.mousePosition - pos;
-                    this.angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                    if (this.angle >= this.angleMin && this.angle <= this.angleMax) {
-                        DottedLine.DottedLine.Instance.DrawDottedLine(gameObject.transform.position, this.ray.point);
-                        DottedLine.DottedLine.Instance.DrawDottedLine(this.ray.point, this.ray.point + poss.normalized * 2);
-                        if (this.BallSprite.activeSelf == false) {
-                            this.BallSprite.SetActive(true);
-                        }
-                    }
-                    else {
-                        if (this.BallSprite.activeSelf == true) {
-                            this.BallSprite.SetActive(false);
-                        }
-                    }
-
-                    transform.rotation = Quaternion.AngleAxis(this.angle, Vector3.forward);
+                if (IsPlayerAimingWithinGameField()) {
+                    this.angle = GetManualAimAngle();
+                    AimAndPredictTrajectory(this.angle);
                 }
             }
         }
 
+        private float GetManualAimAngle()
+        {
+            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 dir = Input.mousePosition - pos;
+            return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        }
+
+        private float GetSliderAngle()
+        {
+            return 180f - this.slider.value;
+        }
+
+        private void AimAndPredictTrajectory(float angle)
+        {
+            var ray = Raycast();
+                    
+            UpdateSliderBallPosition(ray);
+                    
+            if (angle >= this.angleMin && angle <= this.angleMax) {
+                DrawDottedLines(ray);
+                        
+                if (this.BallSprite.activeSelf == false) {
+                    this.BallSprite.SetActive(true);
+                }
+            }
+            else {
+                if (this.BallSprite.activeSelf) {
+                    this.BallSprite.SetActive(false);
+                }
+            }
+
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+
+        private void UpdateSliderBallPosition(RaycastHit2D ray)
+        {
+            this.BallSprite.transform.position = ray.point;
+        }
+
+        private void DrawDottedLines(RaycastHit2D ray)
+        {
+            DottedLine.DottedLine.Instance.DrawDottedLine(gameObject.transform.position, ray.point);
+            Vector2 poss = Vector2.Reflect(new Vector3(ray.point.x, ray.point.y) - this.transform.position,
+                ray.normal);
+            DottedLine.DottedLine.Instance.DrawDottedLine(ray.point, ray.point + poss.normalized * 2);
+        }
+
+        private RaycastHit2D Raycast()
+        {
+            var ray = Physics2D.Raycast(gameObject.transform.position, transform.right, 
+                12f, this.layerMask);
+            Debug.DrawRay(gameObject.transform.position, transform.right * ray.distance, Color.red);
+            return ray;
+        }
+
+        private static bool IsPlayerAimingWithinGameField()
+        {
+            return Input.GetMouseButton(0);
+        }
+
         public void PointerD()
         {
-            this.PointerDown = true;
+            this.IsPayerAimingWithSlider = true;
         }
 
         public void PointerUp()
         {
-            this.PointerDown = false;
+            this.IsPayerAimingWithSlider = false;
         }
 
         private void Update()
         {
-            if (BallMover.firstHit == true) {
+            if (BallMover.firstHit) {
                 if (this.FirstBall.activeSelf == false) {
                     this.FirstBall.SetActive(true);
                 }
             }
 
-            if (BottomWall.Shooting != false) {
+            if (BottomWall.IsShooting) {
                 return;
             }
 
             if (Input.GetMouseButtonUp(0)) {
-                this.BallSprite.SetActive(false);
-                if (this.angle >= this.angleMin && this.angle <= this.angleMax) {
-                    if (BottomWall.firstHit == true) {
-                        BottomWall.firstHit = false;
-                    }
-
-                    StartCoroutine(ShootBall());
-                }
-                else {
-                    transform.rotation = Quaternion.identity;
-                }
+                TryStartShooting();
             }
+        }
+
+        private void TryStartShooting()
+        {
+            this.BallSprite.SetActive(false);
+            if (IsAngleWithinLimits(this.angle)) {
+                BottomWall.wasHitThisRound = false;
+                    
+                StartCoroutine(ShootBall());
+            }
+            else {
+                transform.rotation = Quaternion.identity;
+            }
+        }
+
+        private bool IsAngleWithinLimits(float angle)
+        {
+            return angle >= this.angleMin && angle <= this.angleMax;
         }
 
         private IEnumerator ShootBall()
@@ -141,15 +176,15 @@ namespace BrickBreaker
             downStepper.PrepareNextPosition();
             
             StartCoroutine(SpeedUp());
-            BottomWall.Shooting = true;
+            BottomWall.IsShooting = true;
             this.tmp.text = "";
             BallDetector.isTriggered = false;
             this.stop = false;
             this.list.Clear();
             this.FirstBall.SetActive(false);
-            for (int i = 0; i < BallCount; i++) {
-                yield return new WaitForSeconds(0.08f);
-                if (this.stop == true) {
+            for (int i = 0; i < Constants.BallCount; i++) {
+                yield return new WaitForSeconds(shotDelaySeconds);
+                if (this.stop) {
                     break;
                 }
 
@@ -164,7 +199,7 @@ namespace BrickBreaker
         {
             yield return new WaitForSeconds(4.6f);
 
-            if (BottomWall.Shooting == true) {
+            if (BottomWall.IsShooting) {
                 this.SpeedUpParent.SetActive(true);
                 Time.timeScale = 1.6f;
             }
@@ -178,7 +213,7 @@ namespace BrickBreaker
     
         public void ResetBalls()
         {
-            BottomWall.firstHit = true;
+            BottomWall.wasHitThisRound = true;
             this.stop = true;
             foreach (GameObject go in this.list) {
                 if (go != null) {

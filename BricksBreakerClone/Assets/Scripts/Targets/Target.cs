@@ -50,7 +50,7 @@ namespace BrickBreaker
                 spriteRenderer.color = this.colors[Random.Range(0, this.colors.Length)];
             }
             else {
-                transform.parent.GetComponent<ParticleSystemPlayer>().start = true;
+                transform.parent.GetComponent<ParticleSystemPlayer>().Play();
                 ScorePoints(destroyValuePoints);
                 this.Destroying?.Invoke(this);
                 Destroy(this.gameObject);

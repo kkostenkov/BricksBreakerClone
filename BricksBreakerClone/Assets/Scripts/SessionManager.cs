@@ -23,7 +23,8 @@ namespace BrickBreaker
         {
             this.targetsNotifier.AllTargetsDestroyed += OnAllTargetsDestroyed;
             this.gameLostNotifier.TargetReachedGameLostTrigger += OnGameLost;
-            await WaitForSessionEndAndShowLeaderboard();
+            await WaitForSessionEndAsync();
+            await ShowLeaderboardAsync();
         }
 
         private void OnDestroy()
@@ -48,13 +49,16 @@ namespace BrickBreaker
             isSessonEnded = true;
         }
 
-        [ContextMenu("Show leaderboard popup")]
-        private async Task WaitForSessionEndAndShowLeaderboard()
+        private async Task WaitForSessionEndAsync()
         {
-            while (!isSessonEnded) {
+            while (!this.isSessonEnded) {
                 await Task.Yield();
             }
+        }
 
+        [ContextMenu("Show leaderboard popup")]
+        private async Task ShowLeaderboardAsync()
+        {
             await this.sessionEndSequencer.GetMultiplierAndShowLeaderboard();
         }
     }

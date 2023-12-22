@@ -9,5 +9,6 @@ namespace BrickBreaker
         }
 
         public const int LeaderboardEntriesLimit = 100;
+        public const int BallCount = 52;
     }
 }

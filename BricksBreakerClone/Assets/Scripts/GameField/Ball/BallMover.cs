@@ -14,7 +14,7 @@ namespace BrickBreaker
             this.Move = false;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             if (this.Move != true) {
                 return;
@@ -26,7 +26,7 @@ namespace BrickBreaker
                 gameObject.transform.position, 
                 BottomWall.NextPosition, 
                 this.step);
-            if (Vector2.Distance(gameObject.transform.position, BottomWall.NextPosition) < 0.0001f) {
+            if (gameObject.transform.position.IsCloseEnoughTo(BottomWall.NextPosition)) {
                 Destroy(this.gameObject);
             }
         }

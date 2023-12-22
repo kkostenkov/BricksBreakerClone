@@ -6,22 +6,17 @@ namespace BrickBreaker
     public class SessionManager : MonoBehaviour
     {
         private ITargetsDestroyedNotifier targetsNotifier;
-        private IInputController inputController;
         private IGameLostNotifier gameLostNotifier;
-        private ScoreMultiplicatorPopup multiplicatorPopup;
-        private LeaderboardPopup leaderboardPopup;
 
         private bool isSessonEnded = false;
+        private SessionEndSequencer sessionEndSequencer;
 
-        public void Inject(IInputController inputController, ITargetsDestroyedNotifier targetsNotifier,
-            IGameLostNotifier gameLostNotifier, ScoreMultiplicatorPopup multiplicatorPopup,
-            LeaderboardPopup leaderboardPopup)
+        public void Inject(ITargetsDestroyedNotifier targetsNotifier, IGameLostNotifier gameLostNotifier, 
+            SessionEndSequencer sessionEndSequencer)
         {
-            this.inputController = inputController;
             this.targetsNotifier = targetsNotifier;
             this.gameLostNotifier = gameLostNotifier;
-            this.multiplicatorPopup = multiplicatorPopup;
-            this.leaderboardPopup = leaderboardPopup;
+            this.sessionEndSequencer = sessionEndSequencer;
         }
 
         private async void Start()
@@ -60,27 +55,7 @@ namespace BrickBreaker
                 await Task.Yield();
             }
 
-            DisablePlayerInput();
-
-            var mult = await GetMultiplicatorAsync();
-            var score = GameSessionPointsDisplay.Points * mult;
-            
-            leaderboardPopup.Warmup();
-            leaderboardPopup.RegisterLocalPlayerSessionScore(score);
-            leaderboardPopup.Show();
-        }
-
-        private void DisablePlayerInput()
-        {
-            inputController.TurnOff();
-        }
-
-        private async Task<int> GetMultiplicatorAsync()
-        {
-            this.multiplicatorPopup.Show();
-            var mult = await this.multiplicatorPopup.GetMultiplicatorAsync();
-            this.multiplicatorPopup.Hide();
-            return mult;
+            await this.sessionEndSequencer.GetMultiplicatorAndShowLeaderboard();
         }
     }
 }

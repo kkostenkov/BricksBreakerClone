@@ -1,112 +1,98 @@
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LeaderboardPopup : BasePopup
+namespace BrickBreaker
 {
-    [SerializeField]
-    private Button playAgainButton;
-    [SerializeField]
-    private Transform entriesRoot;
-    [SerializeField]
-    private LeaderboardEntry entryPrefab;
-
-    private const int entriesLimit = 100;
-    private const string leaderboardPrefsKey = "leaderboard";
-    private int localPlayerId = 1;
-
-    private readonly List<LeaderboardEntry> entryViews = new();
-    private LeaderboardEntryData localPlayerEntry;
-    private List<LeaderboardEntryData> dataEntries;
-
-    private void Awake()
+    public class LeaderboardPopup : BasePopup
     {
-        playAgainButton.onClick.AddListener(OnPlayAgainPressed);
-    }
+        [SerializeField]
+        private Button playAgainButton;
+        [SerializeField]
+        private Transform entriesRoot;
+        [SerializeField]
+        private LeaderboardEntryView entryViewPrefab;
 
-    private void OnDestroy()
-    {
-        playAgainButton.onClick.RemoveAllListeners();
-    }
+        private int localPlayerId = 1;
 
-    public void RegisterLocalPlayerSessionScore(int score)
-    {
-        if (localPlayerEntry == null) {
-            localPlayerEntry = this.dataEntries.FirstOrDefault(data => data.PlayerId == this.localPlayerId);
+        private readonly List<LeaderboardEntryView> entryViews = new();
+        private LeaderboardEntryData localPlayerEntry;
+        private List<LeaderboardEntryData> dataEntries;
+        private ILeaderboardStorage leaderboardStorage;
+
+        public void Inject(ILeaderboardStorage leaderboardStorage)
+        {
+            this.leaderboardStorage = leaderboardStorage;
+        }
+    
+        private void Start()
+        {
+            this.playAgainButton.onClick.AddListener(OnPlayAgainPressed);
         }
 
-        if (localPlayerEntry == null) {
-            localPlayerEntry = new LeaderboardEntryData(score: 0, this.localPlayerId);
-            dataEntries.Add(localPlayerEntry);
+        private void OnDestroy()
+        {
+            this.playAgainButton.onClick.RemoveAllListeners();
         }
 
-        localPlayerEntry.Score += score;
-        dataEntries = dataEntries.OrderByDescending(d => d.Score).ToList();
-        SaveData(this.dataEntries);
-    }
-
-    public void Warmup()
-    {
-        for (int i = 0; i < entriesLimit; i++) {
-            var entry = Instantiate(entryPrefab, this.entriesRoot);
-            this.entryViews.Add(entry);
-        }
-        dataEntries = LoadData().OrderBy(d => d.Score).ToList();
-    }
-
-    public override void Show()
-    {
-        for (int index = 0; index < entryViews.Count; index++) {
-            entryViews[index].Setup(dataEntries[index], index);
-            var isLocalPlayer = dataEntries[index].PlayerId == this.localPlayerId;
-            if (isLocalPlayer) {
-                entryViews[index].SetLocalPlayerView();    
+        public void Warmup()
+        {
+            for (int i = 0; i < Constants.LeaderboardEntriesLimit; i++) {
+                var entry = Instantiate(this.entryViewPrefab, this.entriesRoot);
+                this.entryViews.Add(entry);
             }
-            entryViews[index].gameObject.SetActive(true);
-        }
-        base.Show();
-    }
-
-    private void OnPlayAgainPressed()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    
-    [ContextMenu("Load")]
-    private List<LeaderboardEntryData> LoadData()
-    {
-        var jsonData = PlayerPrefs.GetString(leaderboardPrefsKey);
-        var entries = JsonConvert.DeserializeObject<List<LeaderboardEntryData>>(jsonData);
-        if (entries == null || entries.Count == 0) {
-            entries = CreateFakeData();
-        }
-        return entries;
-    }
-    
-    private void SaveData(List<LeaderboardEntryData> data)
-    {
-        var savedEntries = data.Take(entriesLimit).ToList();
-        var jsonData = JsonConvert.SerializeObject(savedEntries);
-        PlayerPrefs.SetString(leaderboardPrefsKey, jsonData);
-    }
-
-    [ContextMenu("TestSave")]
-    private void TestSave()
-    {
-        SaveData(CreateFakeData());
-    }
-
-    private List<LeaderboardEntryData> CreateFakeData()
-    {
-        var entries = new List<LeaderboardEntryData>();
-        for (int i = 0; i < entriesLimit; i++) {
-            var entry = new LeaderboardEntryData(Random.Range(10, 17800), i);
-            entries.Add(entry);
+            this.dataEntries = this.leaderboardStorage.Load().OrderBy(d => d.Score).ToList();
         }
 
-        return entries;
+        public void RegisterLocalPlayerSessionScore(int score)
+        {
+            CachePlayerEntry();
+
+            this.localPlayerEntry.Score += score;
+            this.dataEntries = this.dataEntries.OrderByDescending(d => d.Score).ToList();
+            this.leaderboardStorage.Save(this.dataEntries);
+        }
+
+        private void CachePlayerEntry()
+        {
+            if (this.localPlayerEntry == null) {
+                FindLocalPlayerEntry();
+
+                if (this.localPlayerEntry == null) {
+                    CreateLocalPlayerEntry();
+                }
+            }
+        }
+
+        private void FindLocalPlayerEntry()
+        {
+            this.localPlayerEntry = this.dataEntries.FirstOrDefault(data => data.PlayerId == this.localPlayerId);
+        }
+
+        private void CreateLocalPlayerEntry()
+        {
+            this.localPlayerEntry = new LeaderboardEntryData(score: 0, this.localPlayerId);
+            this.dataEntries.Add(this.localPlayerEntry);
+        }
+
+        public override void Show()
+        {
+            for (int index = 0; index < this.entryViews.Count; index++) {
+                this.entryViews[index].Setup(this.dataEntries[index], index);
+                var isLocalPlayer = this.dataEntries[index].PlayerId == this.localPlayerId;
+                if (isLocalPlayer) {
+                    this.entryViews[index].SetLocalPlayerView();    
+                }
+                this.entryViews[index].gameObject.SetActive(true);
+            }
+            base.Show();
+        }
+
+        private void OnPlayAgainPressed()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }

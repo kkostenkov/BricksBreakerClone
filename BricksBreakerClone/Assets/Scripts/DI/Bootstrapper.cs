@@ -23,16 +23,18 @@ namespace BrickBreaker
         private void Awake()
         {
             InstallDependencyInjection();
-            // var buildingCursor = DI.Game.Resolve<IBuildingCursor>() as BuildCursorComponent;
         }
 
         private void InstallDependencyInjection()
         {
             DI.CreateGameContainer();
+            
+            DI.Game.Register<ILeaderboardStorage, LeaderboardStorage>();
+            
             DI.Game.Register<ITargetDownMover>(downStepper);
             
             ballSpawner.Inject(downStepper);
-            DI.Game.Register<BallSpawner>(ballSpawner);
+            DI.Game.Register<IInputController>(ballSpawner);
             
             bottomWall.Inject(downStepper, ballSpawner);
             DI.Game.Register<BottomWall>(bottomWall);
@@ -41,12 +43,16 @@ namespace BrickBreaker
             DI.Game.Register<GameLostTrigger>(gameLostTrigger);
 
             DI.Game.Register<ScoreMultiplicatorPopup>(multipicatorPopup);
+            var leaderboardStorage = DI.Game.Resolve<ILeaderboardStorage>();
+            leaderboardPopup.Inject(leaderboardStorage);
             DI.Game.Register<LeaderboardPopup>(leaderboardPopup);
+            
+            DI.Game.Register<SessionEndSequencer>();
 
             var sessionManager = this.GetComponent<SessionManager>();
-            sessionManager.Inject(ballSpawner, targetController, gameLostTrigger, multipicatorPopup, leaderboardPopup);
+            var sequencer = DI.Game.Resolve<SessionEndSequencer>();
+            sessionManager.Inject(targetController, gameLostTrigger, sequencer);
             DI.Game.Register<SessionManager>(sessionManager);
-
         }
 
         private void OnDestroy()

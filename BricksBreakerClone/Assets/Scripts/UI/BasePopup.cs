@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class BasePopup : MonoBehaviour
+namespace BrickBreaker
 {
-    public virtual void Show()
+    public class BasePopup : MonoBehaviour
     {
-        this.gameObject.SetActive(true);
-    }
+        public virtual void Show()
+        {
+            this.gameObject.SetActive(true);
+        }
 
-    public virtual void Hide()
-    {
-        this.gameObject.SetActive(false);
+        public virtual void Hide()
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }

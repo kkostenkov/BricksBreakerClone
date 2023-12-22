@@ -7,5 +7,7 @@ namespace BrickBreaker
             public static readonly string Ball = "Ball";
             public static readonly string Target = "Target";
         }
+
+        public const int LeaderboardEntriesLimit = 100;
     }
 }

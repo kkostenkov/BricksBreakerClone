@@ -3,31 +3,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreMultiplicationButton : MonoBehaviour
+namespace BrickBreaker
 {
-    [SerializeField]
-    private Button button;
-
-    [SerializeField]
-    private int multiplicatorValue;
-
-    public int Muliplicator => this.multiplicatorValue;
-    public Action MultiplicatorSelected;
-
-    private void Awake()
+    public class ScoreMultiplicationButton : MonoBehaviour
     {
-        this.button.onClick.AddListener(OnButtonClicked);
-        var text = GetComponentInChildren<TextMeshProUGUI>();
-        text.text = multiplicatorValue + "x";
-    }
+        [SerializeField]
+        private Button button;
 
-    private void OnDestroy()
-    {
-        this.button.onClick.RemoveAllListeners();
-    }
+        [SerializeField]
+        private int multiplicatorValue;
 
-    private void OnButtonClicked()
-    {
-        this.MultiplicatorSelected?.Invoke();
+        public int Muliplicator => this.multiplicatorValue;
+        public Action MultiplicatorSelected;
+
+        private void Awake()
+        {
+            this.button.onClick.AddListener(OnButtonClicked);
+            var text = GetComponentInChildren<TextMeshProUGUI>();
+            text.text = this.multiplicatorValue + "x";
+        }
+
+        private void OnDestroy()
+        {
+            this.button.onClick.RemoveAllListeners();
+        }
+
+        private void OnButtonClicked()
+        {
+            this.MultiplicatorSelected?.Invoke();
+        }
     }
 }

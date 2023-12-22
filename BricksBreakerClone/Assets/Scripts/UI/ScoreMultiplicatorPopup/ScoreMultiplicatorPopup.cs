@@ -4,31 +4,34 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ScoreMultiplicatorPopup : BasePopup
+namespace BrickBreaker
 {
-    [SerializeField]
-    private List<ScoreMultiplicationButton> multiplicatorButtons;
-
-    public async Task<int> GetMultiplicatorAsync()
+    public class ScoreMultiplicatorPopup : BasePopup
     {
-        var ct = new CancellationToken();
-        var tasks = multiplicatorButtons.Select((b) => WaitForPress(b, ct));
-        var finishedTask = await Task.WhenAny(tasks);
-        var pressedButton = finishedTask.Result;
-        return pressedButton.Muliplicator;
-    }
+        [SerializeField]
+        private List<ScoreMultiplicationButton> multiplicatorButtons;
 
-    private async Task<ScoreMultiplicationButton> WaitForPress(ScoreMultiplicationButton button, CancellationToken ct)
-    {
-        bool isPressed = false;
-        button.MultiplicatorSelected += () => isPressed = true;
-        while (!isPressed) {
-            await Task.Yield();
-            if (ct.IsCancellationRequested) {
-                button.MultiplicatorSelected = null;
-                return null;
-            }
+        public async Task<int> GetMultiplicatorAsync()
+        {
+            var ct = new CancellationToken();
+            var tasks = this.multiplicatorButtons.Select((b) => WaitForPress(b, ct));
+            var finishedTask = await Task.WhenAny(tasks);
+            var pressedButton = finishedTask.Result;
+            return pressedButton.Muliplicator;
         }
-        return button;
+
+        private async Task<ScoreMultiplicationButton> WaitForPress(ScoreMultiplicationButton button, CancellationToken ct)
+        {
+            bool isPressed = false;
+            button.MultiplicatorSelected += () => isPressed = true;
+            while (!isPressed) {
+                await Task.Yield();
+                if (ct.IsCancellationRequested) {
+                    button.MultiplicatorSelected = null;
+                    return null;
+                }
+            }
+            return button;
+        }
     }
 }

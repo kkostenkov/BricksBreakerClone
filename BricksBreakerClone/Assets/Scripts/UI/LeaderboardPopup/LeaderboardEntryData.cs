@@ -1,7 +1,9 @@
+
+[System.Serializable]
 public class LeaderboardEntryData
 {
-    public int Score { get; set; }
-    public int PlayerId { get; }
+    public int Score;
+    public int PlayerId;
 
     public LeaderboardEntryData(int score, int playerId)
     {

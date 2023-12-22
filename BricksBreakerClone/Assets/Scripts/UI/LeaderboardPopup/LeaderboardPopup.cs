@@ -32,18 +32,18 @@ public class LeaderboardPopup : MonoBehaviour
         playAgainButton.onClick.RemoveAllListeners();
     }
 
-    public void SetLocalPlayerScore(int score)
+    public void RegisterLocalPlayerSessionScore(int score)
     {
         if (localPlayerEntry == null) {
             localPlayerEntry = this.dataEntries.FirstOrDefault(data => data.PlayerId == this.localPlayerId);
         }
 
         if (localPlayerEntry == null) {
-            localPlayerEntry = new LeaderboardEntryData(score: score, this.localPlayerId);
+            localPlayerEntry = new LeaderboardEntryData(score: 0, this.localPlayerId);
             dataEntries.Add(localPlayerEntry);
         }
 
-        localPlayerEntry.Score = score;
+        localPlayerEntry.Score += score;
         dataEntries = dataEntries.OrderByDescending(d => d.Score).ToList();
         SaveData(this.dataEntries);
     }

@@ -58,7 +58,7 @@ namespace BrickBreaker
             var mult = await GetMultiplicatorAsync();
             var score = GameSessionPointsDisplay.Points * mult;
             this.leaderboardPopup.Warmup();
-            this.leaderboardPopup.SetLocalPlayerScore(score);
+            this.leaderboardPopup.RegisterLocalPlayerSessionScore(score);
             this.leaderboardPopup.Show();
         }
 
@@ -72,7 +72,6 @@ namespace BrickBreaker
             multipicatorPopup.gameObject.SetActive(true);
             var mult = await multipicatorPopup.GetMultiplicatorAsync();
             multipicatorPopup.gameObject.SetActive(false);
-            Debug.Log(mult);
             return mult;
         }
     }

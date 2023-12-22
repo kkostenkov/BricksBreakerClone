@@ -55,7 +55,7 @@ namespace BrickBreaker
                 await Task.Yield();
             }
 
-            await this.sessionEndSequencer.GetMultiplicatorAndShowLeaderboard();
+            await this.sessionEndSequencer.GetMultiplierAndShowLeaderboard();
         }
     }
 }

@@ -267,7 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playAgainButton: {fileID: 6099501531325158710}
   entriesRoot: {fileID: 7479409114988996752}
-  entryPrefab: {fileID: 2779919833991705574}
+  entryViewPrefab: {fileID: 2779919833991705574}
 --- !u!1 &3790681074616502031
 GameObject:
   m_ObjectHideFlags: 0

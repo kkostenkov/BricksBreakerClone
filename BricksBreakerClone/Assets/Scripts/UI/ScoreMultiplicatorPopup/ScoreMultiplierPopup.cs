@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace BrickBreaker
 {
-    public class ScoreMultiplicatorPopup : BasePopup
+    public class ScoreMultiplierPopup : BasePopup
     {
         [SerializeField]
         private List<ScoreMultiplicationButton> multiplicatorButtons;
 
-        public async Task<int> GetMultiplicatorAsync()
+        public async Task<int> GetMultiplierAsync()
         {
             var ct = new CancellationToken();
             var tasks = this.multiplicatorButtons.Select((b) => WaitForPress(b, ct));

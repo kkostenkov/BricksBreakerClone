@@ -1509,6 +1509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 951518957}
   - component: {fileID: 951518956}
+  - component: {fileID: 951518958}
   m_Layer: 0
   m_Name: SessionManager
   m_TagString: Untagged
@@ -1528,11 +1529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b21b82b9c09e4ed69b2fc9565795183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetController: {fileID: 1238732512}
-  ballSpawner: {fileID: 1124306443}
-  gameLostTrigger: {fileID: 256895090}
-  multipicatorPopup: {fileID: 2129341729}
-  leaderboardPopup: {fileID: 3790681073896811676}
 --- !u!4 &951518957
 Transform:
   m_ObjectHideFlags: 0
@@ -1548,6 +1544,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &951518958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951518955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88eaff5e8eac84b09be4bd35d9675156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetController: {fileID: 1238732512}
+  ballSpawner: {fileID: 1124306443}
+  gameLostTrigger: {fileID: 256895090}
+  multipicatorPopup: {fileID: 2129341729}
+  leaderboardPopup: {fileID: 3790681073896811676}
 --- !u!1001 &1057317224
 PrefabInstance:
   m_ObjectHideFlags: 0

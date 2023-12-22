@@ -5,20 +5,26 @@ namespace BrickBreaker
 {
     public class SessionManager : MonoBehaviour
     {
-        [SerializeField]
         private TargetController targetController;
-        [SerializeField]
         private BallSpawner ballSpawner;
-        [SerializeField]
         private GameLostTrigger gameLostTrigger;
-        [SerializeField]
         private ScoreMultiplicatorPopup multipicatorPopup;
-        [SerializeField]
         private LeaderboardPopup leaderboardPopup;
 
         private bool isSessonEnded = false;
 
-        private async void Awake()
+        public void Inject(BallSpawner ballSpawner, TargetController targetController, 
+            GameLostTrigger gameLostTrigger, ScoreMultiplicatorPopup multipicatorPopup, 
+            LeaderboardPopup leaderboardPopup)
+        {
+            this.ballSpawner = ballSpawner;
+            this.targetController = targetController;
+            this.gameLostTrigger = gameLostTrigger;
+            this.multipicatorPopup = multipicatorPopup;
+            this.leaderboardPopup = leaderboardPopup;
+        }
+        
+        private async void Start()
         {
             this.targetController.AllTargetsDestroyed += OnAllTargetsDestroyed;
             this.gameLostTrigger.TargetReachedGameLostTrigger += OnGameLost;

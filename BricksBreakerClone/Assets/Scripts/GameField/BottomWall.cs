@@ -7,8 +7,6 @@ namespace BrickBreaker
     {
         public static int count;
         public static bool Shooting;
-        public GameObject ballSpawner;
-        private BallSpawner bs;
         public static bool firstHit;
         public static Vector3 NextPosition;
         public GameObject Text;
@@ -16,6 +14,15 @@ namespace BrickBreaker
         public static int currentShotPoints;
         public GameObject FirstBall;
         private bool setText;
+
+        private ITargetDownMover downStepper;
+        private BallSpawner bs;
+
+        public void Inject(ITargetDownMover downStepper, BallSpawner ballSpawner)
+        {
+            this.downStepper = downStepper;
+            this.bs = ballSpawner;
+        }
 
         private void Start()
         {
@@ -25,8 +32,7 @@ namespace BrickBreaker
             currentShotPoints = 0;
 
             this.tmp = this.Text.GetComponent<TextMeshPro>();
-            NextPosition = this.ballSpawner.transform.position;
-            this.bs = this.ballSpawner.GetComponent<BallSpawner>();
+            NextPosition = this.bs.transform.position;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -59,8 +65,8 @@ namespace BrickBreaker
 
         private void Update()
         {
-            var areTargetsStill = TargetDownStepper.ShouldMove == false;
-            var noBallsOnTheField = this.ballSpawner.transform.childCount == 0;
+            var areTargetsStill = downStepper.IsMoving == false;
+            var noBallsOnTheField = this.bs.transform.childCount == 0;
             var isRoundOver = firstHit == true &&
                               noBallsOnTheField && 
                               areTargetsStill;
@@ -68,8 +74,10 @@ namespace BrickBreaker
             if (isRoundOver) {
                 this.bs.SpeedupOff();
                 currentShotPoints = 0;
-                this.ballSpawner.transform.position = NextPosition;
-                TargetDownStepper.ShouldMove = true;
+                this.bs.transform.position = NextPosition;
+                
+                downStepper.MakeStep();
+                
                 this.setText = false;
                 count = 0;
                 firstHit = false;

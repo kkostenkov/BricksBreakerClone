@@ -14,7 +14,12 @@ namespace BrickBreaker
         private ScoreMultiplicatorPopup multipicatorPopup;
         [SerializeField]
         private LeaderboardPopup leaderboardPopup;
-        
+        [SerializeField]
+        private BottomWall bottomWall;
+
+        [SerializeField]
+        private TargetDownStepper downStepper;
+
         private void Awake()
         {
             InstallDependencyInjection();
@@ -24,10 +29,17 @@ namespace BrickBreaker
         private void InstallDependencyInjection()
         {
             DI.CreateGameContainer();
-            DI.Game.Register<TargetController>(targetController);
-            DI.Game.Register<BallSpawner>(ballSpawner);
-            DI.Game.Register<GameLostTrigger>(gameLostTrigger);
+            DI.Game.Register<ITargetDownMover>(downStepper);
             
+            ballSpawner.Inject(downStepper);
+            DI.Game.Register<BallSpawner>(ballSpawner);
+            
+            bottomWall.Inject(downStepper, ballSpawner);
+            DI.Game.Register<BottomWall>(bottomWall);
+
+            DI.Game.Register<TargetController>(targetController);
+            DI.Game.Register<GameLostTrigger>(gameLostTrigger);
+
             DI.Game.Register<ScoreMultiplicatorPopup>(multipicatorPopup);
             DI.Game.Register<LeaderboardPopup>(leaderboardPopup);
 

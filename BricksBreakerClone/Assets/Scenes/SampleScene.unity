@@ -1561,6 +1561,8 @@ MonoBehaviour:
   gameLostTrigger: {fileID: 256895090}
   multipicatorPopup: {fileID: 2129341729}
   leaderboardPopup: {fileID: 3790681073896811676}
+  bottomWall: {fileID: 1192805634}
+  downStepper: {fileID: 1238732511}
 --- !u!1001 &1057317224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1913,6 +1915,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1174868436}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1192805634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4597525483496946370, guid: cc5e1195b66c34a6c91fcd2e08c618aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4597525483832671889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47bc75463edfd2441990364b7416a21a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1207887233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2206,7 +2220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2164eea7df9bb46b3edd7b916fc76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newPos: {x: 0, y: 0}
 --- !u!114 &1238732512
 MonoBehaviour:
   m_ObjectHideFlags: 0

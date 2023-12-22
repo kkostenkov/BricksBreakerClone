@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BrickBreaker
 {
-    public class TargetController : MonoBehaviour
+    public class TargetController : MonoBehaviour, ITargetsDestroyedNotifier
     {
         private int targetsCount;
         private Target[] initialTargets;

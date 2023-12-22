@@ -5,36 +5,36 @@ namespace BrickBreaker
 {
     public class SessionManager : MonoBehaviour
     {
-        private TargetController targetController;
-        private BallSpawner ballSpawner;
-        private GameLostTrigger gameLostTrigger;
+        private ITargetsDestroyedNotifier targetsNotifier;
+        private IInputController inputController;
+        private IGameLostNotifier gameLostNotifier;
         private ScoreMultiplicatorPopup multipicatorPopup;
         private LeaderboardPopup leaderboardPopup;
 
         private bool isSessonEnded = false;
 
-        public void Inject(BallSpawner ballSpawner, TargetController targetController, 
-            GameLostTrigger gameLostTrigger, ScoreMultiplicatorPopup multipicatorPopup, 
+        public void Inject(IInputController inputController, ITargetsDestroyedNotifier targetsNotifier, 
+            IGameLostNotifier gameLostNotifier, ScoreMultiplicatorPopup multipicatorPopup, 
             LeaderboardPopup leaderboardPopup)
         {
-            this.ballSpawner = ballSpawner;
-            this.targetController = targetController;
-            this.gameLostTrigger = gameLostTrigger;
+            this.inputController = inputController;
+            this.targetsNotifier = targetsNotifier;
+            this.gameLostNotifier = gameLostNotifier;
             this.multipicatorPopup = multipicatorPopup;
             this.leaderboardPopup = leaderboardPopup;
         }
         
         private async void Start()
         {
-            this.targetController.AllTargetsDestroyed += OnAllTargetsDestroyed;
-            this.gameLostTrigger.TargetReachedGameLostTrigger += OnGameLost;
+            this.targetsNotifier.AllTargetsDestroyed += OnAllTargetsDestroyed;
+            this.gameLostNotifier.TargetReachedGameLostTrigger += OnGameLost;
             await WaitForSessionEndAndShowLeaderboard();
         }
 
         private void OnDestroy()
         {
-            this.targetController.AllTargetsDestroyed -= OnAllTargetsDestroyed;
-            this.gameLostTrigger.TargetReachedGameLostTrigger -= OnGameLost;
+            this.targetsNotifier.AllTargetsDestroyed -= OnAllTargetsDestroyed;
+            this.gameLostNotifier.TargetReachedGameLostTrigger -= OnGameLost;
         }
 
         private void OnAllTargetsDestroyed()
@@ -70,7 +70,7 @@ namespace BrickBreaker
 
         private void DisableInput()
         {
-            this.ballSpawner.gameObject.SetActive(false);
+            this.inputController.TurnOff();
         }
 
         private async Task<int> GetMultiplicatorAsync()

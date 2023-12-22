@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BrickBreaker
 {
-    public class GameLostTrigger : MonoBehaviour
+    public class GameLostTrigger : MonoBehaviour, IGameLostNotifier
     {
         public event Action TargetReachedGameLostTrigger;
         

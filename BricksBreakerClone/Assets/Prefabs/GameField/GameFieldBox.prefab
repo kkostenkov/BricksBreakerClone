@@ -49,7 +49,6 @@ MonoBehaviour:
   SpeedUpParent: {fileID: 2068624072}
   Force: 1000
   layerMask: 0
-  TargetParent: {fileID: 0}
   BallSprite: {fileID: 1506005993}
   list: []
   FirstBall: {fileID: 1342144729}
@@ -825,7 +824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47bc75463edfd2441990364b7416a21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballSpawner: {fileID: 1124306441}
   Text: {fileID: 1132697690}
   FirstBall: {fileID: 1342144729}
 --- !u!1 &4597525483587793917

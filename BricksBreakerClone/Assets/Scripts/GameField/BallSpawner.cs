@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace BrickBreaker
 {
-    public class BallSpawner : MonoBehaviour
+    public class BallSpawner : MonoBehaviour, IInputController
     {
         private RaycastHit2D ray;
         private float angle;
@@ -16,8 +16,6 @@ namespace BrickBreaker
         public GameObject SpeedUpParent;
         public float Force;
         public int layerMask;
-
-        public GameObject TargetParent;
 
         //public bool moving;
         public GameObject BallSprite;
@@ -30,6 +28,13 @@ namespace BrickBreaker
         public float angleMin;
         public float angleMax;
 
+        private ITargetDownMover downStepper;
+
+        public void Inject(ITargetDownMover downStepper)
+        {
+            this.downStepper = downStepper;
+        }
+        
         private void Start()
         {
             this.tmp.text = BallCount + "x";
@@ -132,8 +137,9 @@ namespace BrickBreaker
             this.slider.value = 90;
             this.slider.transform.parent.gameObject.SetActive(false);
             this.Reset.SetActive(true);
-            this.TargetParent.GetComponent<TargetDownStepper>().newPos = new Vector2(this.TargetParent.transform.position.x,
-                this.TargetParent.transform.position.y - 0.75f);
+            
+            downStepper.PrepareNextPosition();
+            
             StartCoroutine(SpeedUp());
             BottomWall.Shooting = true;
             this.tmp.text = "";
@@ -181,6 +187,11 @@ namespace BrickBreaker
                     go.GetComponent<BallMover>().Move = true;
                 }
             }
+        }
+
+        public void TurnOff()
+        {
+            this.gameObject.SetActive(false);
         }
     }
 }

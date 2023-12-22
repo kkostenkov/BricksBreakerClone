@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 613839968210153356}
   - component: {fileID: 613839968210153353}
   m_Layer: 2
-  m_Name: GameOverTrigger
+  m_Name: GameLostTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

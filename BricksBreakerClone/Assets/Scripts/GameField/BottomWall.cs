@@ -59,18 +59,20 @@ namespace BrickBreaker
 
         private void Update()
         {
-            if (firstHit == true) {
-                if (this.ballSpawner.transform.childCount == 0) {
-                    if (GetDown.Move == false) {
-                        this.bs.SpeedupOff();
-                        currentShotPoints = 0;
-                        this.ballSpawner.transform.position = NextPosition;
-                        GetDown.Move = true;
-                        this.setText = false;
-                        count = 0;
-                        firstHit = false;
-                    }
-                }
+            var areTargetsStill = TargetDownStepper.ShouldMove == false;
+            var noBallsOnTheField = this.ballSpawner.transform.childCount == 0;
+            var isRoundOver = firstHit == true &&
+                              noBallsOnTheField && 
+                              areTargetsStill;
+                              
+            if (isRoundOver) {
+                this.bs.SpeedupOff();
+                currentShotPoints = 0;
+                this.ballSpawner.transform.position = NextPosition;
+                TargetDownStepper.ShouldMove = true;
+                this.setText = false;
+                count = 0;
+                firstHit = false;
             }
 
             if (this.setText == true) {

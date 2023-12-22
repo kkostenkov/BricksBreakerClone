@@ -1,27 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TMPro;
+using Random = UnityEngine.Random;
 
 namespace BrickBreaker
 {
     public class Target : MonoBehaviour
     {
-        public Color[] Colors;
-        public int Life;
+        [SerializeField]
+        private Color[] colors;
+        [SerializeField]
+        private int lifePoints;
+        [SerializeField]
         private TextMeshPro txt;
+        [SerializeField]
+        private SpriteRenderer spriteRenderer;
+
+        public event Action<Target> Destroying;
 
         private int hitValuePoints = 1;
         private int destroyValuePoints = 100;
-        private SpriteRenderer spriteRenderer;
-
-        private void Awake()
-        {
-            this.spriteRenderer = gameObject.transform.GetComponent<SpriteRenderer>();
-            this.txt = gameObject.transform.GetChild(0).GetComponent<TextMeshPro>();
-        }
 
         private void Start()
         {
-            this.txt.text = this.Life + "";
+            this.txt.text = this.lifePoints + "";
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -30,16 +32,17 @@ namespace BrickBreaker
                 return;
             }
 
-            if (this.Life > 1) {
-                this.Life--;
-                this.txt.text = this.Life + "";
+            if (this.lifePoints > 1) {
+                this.lifePoints--;
+                this.txt.text = this.lifePoints + "";
                 ScorePoints(this.hitValuePoints);
 
-                spriteRenderer.color = this.Colors[Random.Range(0, this.Colors.Length)];
+                spriteRenderer.color = this.colors[Random.Range(0, this.colors.Length)];
             }
             else {
                 transform.parent.GetComponent<ParticleSystemPlayer>().start = true;
-                ScorePoints(destroyValuePoints); 
+                ScorePoints(destroyValuePoints);
+                this.Destroying?.Invoke(this);
                 Destroy(this.gameObject);
             }
         }
@@ -47,7 +50,7 @@ namespace BrickBreaker
         private void ScorePoints(int points)
         {
             BottomWall.currentShotPoints += points;
-            UIManager.Points += points;
+            GameSessionPointsDisplay.Points += points;
         }
     }
 }

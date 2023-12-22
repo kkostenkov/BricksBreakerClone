@@ -280,7 +280,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1652755933004798212
 MonoBehaviour:
@@ -5342,12 +5342,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1badff7f8fd35f43abeaebaf59993ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Colors:
+  colors:
   - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0.97092533, a: 1}
-  - {r: 0, g: 1, b: 0.10866976, a: 1}
-  - {r: 0.14285517, g: 0, b: 1, a: 1}
-  - {r: 1, g: 0.97351444, b: 0, a: 1}
-  - {r: 1, g: 0.5299013, b: 0, a: 1}
-  - {r: 1, g: 0, b: 0.6787672, a: 1}
-  Life: 30
+  - {r: 0, g: 1, b: 0.99999976, a: 1}
+  - {r: 0.035300493, g: 1, b: 0, a: 1}
+  - {r: 0.07035923, g: 0, b: 1, a: 1}
+  - {r: 0.963735, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.49801767, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.8595643, a: 1}
+  lifePoints: 30
+  txt: {fileID: 1652755933004798212}
+  spriteRenderer: {fileID: 1652755934069118179}

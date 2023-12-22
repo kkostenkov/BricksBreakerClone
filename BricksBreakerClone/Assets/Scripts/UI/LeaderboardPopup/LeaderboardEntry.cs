@@ -1,18 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LeaderboardEntry : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Image avatar;
+    [SerializeField]
+    private Image background;
+    [SerializeField]
+    private TextMeshProUGUI scoreLabel;
+    [SerializeField]
+    private TextMeshProUGUI placeLabel;
+    [SerializeField]
+    private Color regularBackColor;
+    [SerializeField]
+    private Color localPlayerBackColor;
+
+    public void Setup(LeaderboardEntryData data, int index)
     {
-        
+        scoreLabel.text = data.Score.ToString();
+        placeLabel.text = (index + 1).ToString();
+        background.color = this.regularBackColor;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetLocalPlayerView()
     {
-        
+        background.color = this.localPlayerBackColor;
     }
 }

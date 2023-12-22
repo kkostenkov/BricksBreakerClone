@@ -7,21 +7,22 @@ namespace BrickBreaker
     {
         [SerializeField]
         private TargetController targetController;
-
         [SerializeField]
         private BallSpawner ballSpawner;
         [SerializeField]
         private GameLostTrigger gameLostTrigger;
-
         [SerializeField]
         private ScoreMultiplicatorPopup multipicatorPopup;
         [SerializeField]
         private LeaderboardPopup leaderboardPopup;
 
-        private void Awake()
+        private bool isSessonEnded = false;
+
+        private async void Awake()
         {
             this.targetController.AllTargetsDestroyed += OnAllTargetsDestroyed;
             this.gameLostTrigger.TargetReachedGameLostTrigger += OnGameLost;
+            await WaitForSessionEndAndShowLeaderboard();
         }
 
         private void OnDestroy()
@@ -41,13 +42,24 @@ namespace BrickBreaker
         }
 
         [ContextMenu("EndSession")]
-        private async Task EndSession()
+        private void EndSession()
         {
+            isSessonEnded = true;
+        }
+        
+        [ContextMenu("Show leaderboard popup")]
+        private async Task WaitForSessionEndAndShowLeaderboard()
+        {
+            while (!isSessonEnded) {
+                await Task.Yield();
+            }
             DisableInput();
 
             var mult = await GetMultiplicatorAsync();
             var score = GameSessionPointsDisplay.Points * mult;
-            this.leaderboardPopup.gameObject.SetActive(true);
+            this.leaderboardPopup.Warmup();
+            this.leaderboardPopup.SetLocalPlayerScore(score);
+            this.leaderboardPopup.Show();
         }
 
         private void DisableInput()

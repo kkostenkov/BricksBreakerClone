@@ -41,16 +41,15 @@ namespace BrickBreaker
         [ContextMenu("EndSession")]
         private async Task EndSession()
         {
-            DisableGameFiledView();
+            DisableInput();
 
             var mult = await GetMultiplicatorAsync();
             var score = GameSessionPointsDisplay.Points * mult;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        private void DisableGameFiledView()
+        private void DisableInput()
         {
-            this.targetController.gameObject.SetActive(false);
             this.ballSpawner.gameObject.SetActive(false);
         }
 

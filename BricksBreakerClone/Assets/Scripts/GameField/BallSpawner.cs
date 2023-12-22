@@ -54,11 +54,9 @@ namespace BrickBreaker
                 this.angle = GetSliderAngle();
                 AimAndPredictTrajectory(this.angle);
             }
-            else {
-                if (IsPlayerAimingWithinGameField()) {
-                    this.angle = GetManualAimAngle();
-                    AimAndPredictTrajectory(this.angle);
-                }
+            else if (IsPlayerAimingWithinGameField()){
+                this.angle = GetManualAimAngle();
+                AimAndPredictTrajectory(this.angle);
             }
         }
 

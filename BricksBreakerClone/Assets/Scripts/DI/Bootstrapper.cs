@@ -16,7 +16,8 @@ namespace BrickBreaker
         private LeaderboardPopup leaderboardPopup;
         [SerializeField]
         private BottomWall bottomWall;
-
+        [SerializeField]
+        private GameSessionPointsDisplay pointsDisplay;
         [SerializeField]
         private TargetDownStepper downStepper;
 
@@ -34,7 +35,8 @@ namespace BrickBreaker
         {
             DI.CreateGameContainer();
             
-            DI.Game.Register<IPlayerInfoProvider, PlayerInfo>();
+            DI.Game.Register<IPlayerInfoProvider, PlayerInfo>().AsSingleton();
+            DI.Game.Register<SessionPoints>().AsSingleton();
             
             InstallLeaderboard();
             
@@ -47,8 +49,8 @@ namespace BrickBreaker
 
         private static void InstallLeaderboard()
         {
-            DI.Game.Register<ILeaderboardStorage, LeaderboardStorage>();
-            DI.Game.Register<ILeaderboardController, LeaderboardController>();
+            DI.Game.Register<ILeaderboardStorage, LeaderboardStorage>().AsSingleton();
+            DI.Game.Register<ILeaderboardController, LeaderboardController>().AsSingleton();
         }
 
         private void InstallGameSessionFieldEntities()
@@ -61,8 +63,13 @@ namespace BrickBreaker
             this.bottomWall.Inject(this.downStepper, this.ballSpawner);
             DI.Game.Register<BottomWall>(this.bottomWall);
 
+            var pointsHolder = DI.Game.Resolve<SessionPoints>();
+            targetController.Inject(pointsHolder);
             DI.Game.Register<TargetController>(this.targetController);
             DI.Game.Register<GameLostTrigger>(this.gameLostTrigger);
+            
+            pointsDisplay.Inject(pointsHolder);
+            DI.Game.Register<GameSessionPointsDisplay>(this.pointsDisplay);
         }
 
         private void InstallPopups()

@@ -7,15 +7,22 @@ namespace BrickBreaker
     {
         private int targetsCount;
         private Target[] initialTargets;
+        private SessionPoints pointsHolder;
         
         public event Action AllTargetsDestroyed;
+        
+        public void Inject(SessionPoints pointsHolder)
+        {
+            this.pointsHolder = pointsHolder;
+        }
 
-        private void Awake()
+        private void Start()
         {
             this.initialTargets = GetComponentsInChildren<Target>();
             this.targetsCount = initialTargets.Length;
             foreach (var target in this.initialTargets) {
                 target.Destroying += OnTargetDestroying;
+                target.Inject(pointsHolder);
             }
         }
 

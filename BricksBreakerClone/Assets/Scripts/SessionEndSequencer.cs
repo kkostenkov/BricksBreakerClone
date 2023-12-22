@@ -8,14 +8,16 @@ namespace BrickBreaker
         private LeaderboardController leaderboardController;
         private ScoreMultiplierPopup multiplierPopup;
         private LeaderboardPopup leaderboardPopup;
+        private SessionPoints pointsHolder;
 
         public SessionEndSequencer(IInputController inputController, LeaderboardController leaderboardController, 
-            ScoreMultiplierPopup multiplierPopup, LeaderboardPopup leaderboardPopup)
+            ScoreMultiplierPopup multiplierPopup, LeaderboardPopup leaderboardPopup, SessionPoints pointsHolder)
         {
             this.inputController = inputController;
             this.leaderboardController = leaderboardController;
             this.multiplierPopup = multiplierPopup;
             this.leaderboardPopup = leaderboardPopup;
+            this.pointsHolder = pointsHolder;
         }
         
         public async Task GetMultiplierAndShowLeaderboard()
@@ -23,7 +25,7 @@ namespace BrickBreaker
             DisablePlayerInput();
 
             var mult = await GetMultiplierAsync();
-            var score = GameSessionPointsDisplay.Points * mult;
+            var score = pointsHolder.Points * mult;
             this.leaderboardController.RegisterLocalPlayerSessionScore(score);
 
             this.leaderboardPopup.Warmup();

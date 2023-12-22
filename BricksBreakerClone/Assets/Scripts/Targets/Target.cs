@@ -9,10 +9,13 @@ namespace BrickBreaker
     {
         [SerializeField]
         private Color[] colors;
+
         [SerializeField]
         private int lifePoints;
+
         [SerializeField]
         private TextMeshPro txt;
+
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
@@ -20,6 +23,13 @@ namespace BrickBreaker
 
         private int hitValuePoints = 1;
         private int destroyValuePoints = 100;
+
+        private SessionPoints pointsHolder;
+
+        public void Inject(SessionPoints pointsHolder)
+        {
+            this.pointsHolder = pointsHolder;
+        }
 
         private void Start()
         {
@@ -50,7 +60,7 @@ namespace BrickBreaker
         private void ScorePoints(int points)
         {
             BottomWall.currentShotPoints += points;
-            GameSessionPointsDisplay.Points += points;
+            pointsHolder.Add(points);
         }
     }
 }

@@ -1562,7 +1562,20 @@ MonoBehaviour:
   multipicatorPopup: {fileID: 2129341729}
   leaderboardPopup: {fileID: 3790681073896811676}
   bottomWall: {fileID: 1192805634}
+  pointsDisplay: {fileID: 1026982696}
   downStepper: {fileID: 1238732511}
+--- !u!114 &1026982696 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1763621597567836309, guid: 83559ba25412b413abec9d1516725026,
+    type: 3}
+  m_PrefabInstance: {fileID: 1763621597218285613}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e16a72c0b657544a9e7e10c74f63f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1057317224
 PrefabInstance:
   m_ObjectHideFlags: 0

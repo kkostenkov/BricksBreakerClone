@@ -6,7 +6,6 @@ namespace BrickBreaker
 {
     public class GameSessionPointsDisplay : MonoBehaviour
     {
-        public static int Points;
         public Slider Slider;
         public float TargetScore;
         public Image Star1;
@@ -15,19 +14,20 @@ namespace BrickBreaker
         private float changeSpeed;
         public TextMeshProUGUI PointsText;
 
-        private void Start()
+        private SessionPoints pointsHolder;
+
+        public void Inject(SessionPoints pointsHolder)
         {
-            Points = 0;
+            this.pointsHolder = pointsHolder;
         }
 
         private void Update()
         {
-            this.changeSpeed = Points - this.Slider.value;
+            this.changeSpeed = pointsHolder.Points - this.Slider.value;
             this.Slider.value = Mathf.MoveTowards(
-                this.Slider.value, 
-                Points / this.TargetScore * 100, 
+                this.Slider.value, pointsHolder.Points / this.TargetScore * 100, 
                 this.changeSpeed * Time.deltaTime);
-            this.PointsText.text = Points + "";
+            this.PointsText.text = pointsHolder.Points + "";
 
             if (Mathf.Round(this.Slider.value) >= 100) {
                 this.Star3.color = new Color(1, 1, 1);

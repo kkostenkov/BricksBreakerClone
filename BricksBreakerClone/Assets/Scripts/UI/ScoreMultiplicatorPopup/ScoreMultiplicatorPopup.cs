@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ScoreMultiplicatorPopup : MonoBehaviour
+public class ScoreMultiplicatorPopup : BasePopup
 {
     [SerializeField]
     private List<ScoreMultiplicationButton> multiplicatorButtons;

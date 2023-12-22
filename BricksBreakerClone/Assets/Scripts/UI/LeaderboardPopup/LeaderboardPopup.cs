@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LeaderboardPopup : MonoBehaviour
+public class LeaderboardPopup : BasePopup
 {
     [SerializeField]
     private Button playAgainButton;
@@ -57,10 +57,8 @@ public class LeaderboardPopup : MonoBehaviour
         dataEntries = LoadData().OrderBy(d => d.Score).ToList();
     }
 
-    public void Show()
+    public override void Show()
     {
-        gameObject.SetActive(true);
-        
         for (int index = 0; index < entryViews.Count; index++) {
             entryViews[index].Setup(dataEntries[index], index);
             var isLocalPlayer = dataEntries[index].PlayerId == this.localPlayerId;
@@ -69,6 +67,7 @@ public class LeaderboardPopup : MonoBehaviour
             }
             entryViews[index].gameObject.SetActive(true);
         }
+        base.Show();
     }
 
     private void OnPlayAgainPressed()

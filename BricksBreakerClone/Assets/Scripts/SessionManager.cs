@@ -8,22 +8,22 @@ namespace BrickBreaker
         private ITargetsDestroyedNotifier targetsNotifier;
         private IInputController inputController;
         private IGameLostNotifier gameLostNotifier;
-        private ScoreMultiplicatorPopup multipicatorPopup;
+        private ScoreMultiplicatorPopup multiplicatorPopup;
         private LeaderboardPopup leaderboardPopup;
 
         private bool isSessonEnded = false;
 
-        public void Inject(IInputController inputController, ITargetsDestroyedNotifier targetsNotifier, 
-            IGameLostNotifier gameLostNotifier, ScoreMultiplicatorPopup multipicatorPopup, 
+        public void Inject(IInputController inputController, ITargetsDestroyedNotifier targetsNotifier,
+            IGameLostNotifier gameLostNotifier, ScoreMultiplicatorPopup multiplicatorPopup,
             LeaderboardPopup leaderboardPopup)
         {
             this.inputController = inputController;
             this.targetsNotifier = targetsNotifier;
             this.gameLostNotifier = gameLostNotifier;
-            this.multipicatorPopup = multipicatorPopup;
+            this.multiplicatorPopup = multiplicatorPopup;
             this.leaderboardPopup = leaderboardPopup;
         }
-        
+
         private async void Start()
         {
             this.targetsNotifier.AllTargetsDestroyed += OnAllTargetsDestroyed;
@@ -52,32 +52,34 @@ namespace BrickBreaker
         {
             isSessonEnded = true;
         }
-        
+
         [ContextMenu("Show leaderboard popup")]
         private async Task WaitForSessionEndAndShowLeaderboard()
         {
             while (!isSessonEnded) {
                 await Task.Yield();
             }
-            DisableInput();
+
+            DisablePlayerInput();
 
             var mult = await GetMultiplicatorAsync();
             var score = GameSessionPointsDisplay.Points * mult;
-            this.leaderboardPopup.Warmup();
-            this.leaderboardPopup.RegisterLocalPlayerSessionScore(score);
-            this.leaderboardPopup.Show();
+            
+            leaderboardPopup.Warmup();
+            leaderboardPopup.RegisterLocalPlayerSessionScore(score);
+            leaderboardPopup.Show();
         }
 
-        private void DisableInput()
+        private void DisablePlayerInput()
         {
-            this.inputController.TurnOff();
+            inputController.TurnOff();
         }
 
         private async Task<int> GetMultiplicatorAsync()
         {
-            multipicatorPopup.gameObject.SetActive(true);
-            var mult = await multipicatorPopup.GetMultiplicatorAsync();
-            multipicatorPopup.gameObject.SetActive(false);
+            this.multiplicatorPopup.Show();
+            var mult = await this.multiplicatorPopup.GetMultiplicatorAsync();
+            this.multiplicatorPopup.Hide();
             return mult;
         }
     }

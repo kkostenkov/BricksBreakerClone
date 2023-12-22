@@ -5,12 +5,12 @@ namespace BrickBreaker
     public class SessionEndSequencer
     {
         private IInputController inputController;
-        private LeaderboardController leaderboardController;
+        private ILeaderboardController leaderboardController;
         private ScoreMultiplierPopup multiplierPopup;
         private LeaderboardPopup leaderboardPopup;
         private SessionPoints pointsHolder;
 
-        public SessionEndSequencer(IInputController inputController, LeaderboardController leaderboardController, 
+        public SessionEndSequencer(IInputController inputController, ILeaderboardController leaderboardController, 
             ScoreMultiplierPopup multiplierPopup, LeaderboardPopup leaderboardPopup, SessionPoints pointsHolder)
         {
             this.inputController = inputController;
